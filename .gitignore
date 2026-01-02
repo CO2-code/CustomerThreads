@@ -361,3 +361,19 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ============================
+# CustomerThreads app data
+# ============================
+
+# App runtime data
+data.json
+
+# Google / cloud credentials
+credentials.json
+token.json
+CustomerThreads.Token/
+
+# Backups (if you create any)
+backups/
+CustomerThreads/ceredentials.json

@@ -24,6 +24,8 @@ namespace CustomerThreads
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            ShowLogo();
+
             AdminSettings.Load();
             LoadData();
 
@@ -45,6 +47,9 @@ namespace CustomerThreads
 
             if (listThreads.SelectedItem is CustomerThread thread)
             {
+
+                ShowDetails();
+
                // lblThreadTitle.Text = thread.Title;
                 lblCustomerName.Text = "Name: " + thread.CustomerName;
                 lblCustomerPhone.Text = "Phone: " + thread.Phone;
@@ -146,6 +151,9 @@ namespace CustomerThreads
         {
             var json = JsonConvert.SerializeObject(threads, Formatting.Indented);
             File.WriteAllText(dataFile, json);
+
+            // 🔥 Auto Google Drive backup
+            GoogleDriveBackup.BackupFile(dataFile);
         }
 
         void LoadData()
@@ -562,6 +570,34 @@ namespace CustomerThreads
         private void menuAdminRefresh_Click(object sender, EventArgs e)
         {
             RefreshApplication();
+            ShowLogo();
+        }
+
+        private void picPanelLogo_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void ShowLogo()
+        {
+            picPanelLogo.Visible = true;
+
+            foreach (Control c in panelDetails.Controls)
+            {
+                if (c != picPanelLogo)
+                    c.Visible = false;
+            }
+        }
+
+        private void ShowDetails()
+        {
+            picPanelLogo.Visible = false;
+
+            foreach (Control c in panelDetails.Controls)
+            {
+                if (c != picPanelLogo)
+                    c.Visible = true;
+            }
         }
     }
 }

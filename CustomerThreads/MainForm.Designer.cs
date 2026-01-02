@@ -48,7 +48,6 @@
             this.menuAdminChangePassword = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAdminRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.btnArchived = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panelCustomerInfo = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblCustomerName = new System.Windows.Forms.Label();
@@ -61,6 +60,8 @@
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
             this.panelDetails = new System.Windows.Forms.Panel();
+            this.picPanelLogo = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panelThreads.SuspendLayout();
             this.ctxThreadMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -69,12 +70,13 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.panelDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPanelLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // listCategories
             // 
+            this.listCategories.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.listCategories.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.listCategories.Dock = System.Windows.Forms.DockStyle.Top;
             this.listCategories.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listCategories.FormattingEnabled = true;
             this.listCategories.ItemHeight = 20;
@@ -84,26 +86,25 @@
             "In Repair",
             "Waiting for Parts",
             "Finished"});
-            this.listCategories.Location = new System.Drawing.Point(0, 98);
+            this.listCategories.Location = new System.Drawing.Point(51, 0);
             this.listCategories.Name = "listCategories";
-            this.listCategories.Size = new System.Drawing.Size(250, 24);
+            this.listCategories.Size = new System.Drawing.Size(199, 24);
             this.listCategories.TabIndex = 1;
             this.listCategories.SelectedIndexChanged += new System.EventHandler(this.listCategories_SelectedIndexChanged);
             // 
             // panelThreads
             // 
             this.panelThreads.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panelThreads.Controls.Add(this.listCategories);
-            this.panelThreads.Controls.Add(this.btnArchived);
             this.panelThreads.Controls.Add(this.listThreads);
-            this.panelThreads.Controls.Add(this.panel1);
             this.panelThreads.Controls.Add(this.txtSearch);
+            this.panelThreads.Controls.Add(this.btnArchived);
             this.panelThreads.Controls.Add(this.btnNewThread);
             this.panelThreads.Controls.Add(this.menuStrip1);
+            this.panelThreads.Controls.Add(this.listCategories);
             this.panelThreads.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelThreads.Location = new System.Drawing.Point(0, 0);
             this.panelThreads.Name = "panelThreads";
-            this.panelThreads.Size = new System.Drawing.Size(250, 560);
+            this.panelThreads.Size = new System.Drawing.Size(250, 550);
             this.panelThreads.TabIndex = 1;
             // 
             // listThreads
@@ -116,19 +117,19 @@
             this.listThreads.ForeColor = System.Drawing.Color.Black;
             this.listThreads.FormattingEnabled = true;
             this.listThreads.ItemHeight = 25;
-            this.listThreads.Location = new System.Drawing.Point(0, 98);
+            this.listThreads.Location = new System.Drawing.Point(0, 126);
             this.listThreads.MaximumSize = new System.Drawing.Size(250, 615);
-            this.listThreads.MinimumSize = new System.Drawing.Size(200, 610);
+            this.listThreads.MinimumSize = new System.Drawing.Size(247, 610);
             this.listThreads.Name = "listThreads";
             this.listThreads.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listThreads.Size = new System.Drawing.Size(250, 610);
+            this.listThreads.Size = new System.Drawing.Size(247, 610);
             this.listThreads.TabIndex = 1;
             this.listThreads.SelectedIndexChanged += new System.EventHandler(this.listThreads_SelectedIndexChanged);
             this.listThreads.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listThreads_MouseDown);
             // 
             // ctxThreadMenu
             // 
-            this.ctxThreadMenu.BackColor = System.Drawing.Color.LimeGreen;
+            this.ctxThreadMenu.BackColor = System.Drawing.Color.SkyBlue;
             this.ctxThreadMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ctxEdit,
             this.ctxArchive,
@@ -137,7 +138,7 @@
             this.ctxExport});
             this.ctxThreadMenu.Name = "ctxThreadMenu";
             this.ctxThreadMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ctxThreadMenu.Size = new System.Drawing.Size(153, 114);
+            this.ctxThreadMenu.Size = new System.Drawing.Size(181, 136);
             this.ctxThreadMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ctxThreadMenu_Opening);
             // 
             // ctxEdit
@@ -178,11 +179,11 @@
             // txtSearch
             // 
             this.txtSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtSearch.Location = new System.Drawing.Point(0, 75);
+            this.txtSearch.Location = new System.Drawing.Point(0, 103);
             this.txtSearch.MaximumSize = new System.Drawing.Size(250, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(248, 23);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(250, 23);
+            this.txtSearch.Size = new System.Drawing.Size(248, 23);
             this.txtSearch.TabIndex = 3;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
@@ -192,10 +193,10 @@
             // 
             this.btnNewThread.BackColor = System.Drawing.Color.Blue;
             this.btnNewThread.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.btnNewThread.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnNewThread.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnNewThread.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewThread.ForeColor = System.Drawing.Color.Black;
-            this.btnNewThread.Location = new System.Drawing.Point(0, 40);
+            this.btnNewThread.Location = new System.Drawing.Point(204, 40);
             this.btnNewThread.MaximumSize = new System.Drawing.Size(46, 35);
             this.btnNewThread.MinimumSize = new System.Drawing.Size(45, 30);
             this.btnNewThread.Name = "btnNewThread";
@@ -268,22 +269,16 @@
             // btnArchived
             // 
             this.btnArchived.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnArchived.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnArchived.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnArchived.ForeColor = System.Drawing.Color.Black;
-            this.btnArchived.Location = new System.Drawing.Point(64, 3);
+            this.btnArchived.Location = new System.Drawing.Point(0, 40);
             this.btnArchived.Name = "btnArchived";
-            this.btnArchived.Size = new System.Drawing.Size(180, 63);
+            this.btnArchived.Size = new System.Drawing.Size(204, 63);
             this.btnArchived.TabIndex = 3;
             this.btnArchived.Text = "Open Archive";
             this.btnArchived.UseVisualStyleBackColor = false;
             this.btnArchived.Click += new System.EventHandler(this.btnArchived_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(233, 165);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(835, 599);
-            this.panel1.TabIndex = 6;
             // 
             // panelCustomerInfo
             // 
@@ -409,15 +404,41 @@
             // panelDetails
             // 
             this.panelDetails.AutoSize = true;
+            this.panelDetails.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panelDetails.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDetails.Controls.Add(this.groupBox2);
             this.panelDetails.Controls.Add(this.panelCustomerInfo);
             this.panelDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDetails.Location = new System.Drawing.Point(250, 0);
             this.panelDetails.Name = "panelDetails";
-            this.panelDetails.Size = new System.Drawing.Size(1069, 560);
+            this.panelDetails.Size = new System.Drawing.Size(1069, 550);
             this.panelDetails.TabIndex = 2;
             this.panelDetails.Paint += new System.Windows.Forms.PaintEventHandler(this.panelDetails_Paint);
+            // 
+            // picPanelLogo
+            // 
+            this.picPanelLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picPanelLogo.Cursor = System.Windows.Forms.Cursors.No;
+            this.picPanelLogo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picPanelLogo.Enabled = false;
+            this.picPanelLogo.Image = ((System.Drawing.Image)(resources.GetObject("picPanelLogo.Image")));
+            this.picPanelLogo.Location = new System.Drawing.Point(250, 0);
+            this.picPanelLogo.Name = "picPanelLogo";
+            this.picPanelLogo.Size = new System.Drawing.Size(1069, 550);
+            this.picPanelLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPanelLogo.TabIndex = 6;
+            this.picPanelLogo.TabStop = false;
+            this.picPanelLogo.Click += new System.EventHandler(this.picPanelLogo_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Turquoise;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Enabled = false;
+            this.panel1.Location = new System.Drawing.Point(0, 550);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1319, 10);
+            this.panel1.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -426,8 +447,10 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.CadetBlue;
             this.ClientSize = new System.Drawing.Size(1319, 560);
+            this.Controls.Add(this.picPanelLogo);
             this.Controls.Add(this.panelDetails);
             this.Controls.Add(this.panelThreads);
+            this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.ShowIcon = false;
@@ -446,6 +469,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
             this.panelDetails.ResumeLayout(false);
             this.panelDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPanelLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -470,7 +494,6 @@
         private System.Windows.Forms.ToolStripMenuItem ctxRestore;
         private System.Windows.Forms.ToolStripMenuItem menuAdminRefresh;
         private System.Windows.Forms.Button btnArchived;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panelCustomerInfo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblCustomerCategory;
@@ -483,6 +506,8 @@
         private System.Windows.Forms.PictureBox picPreview;
         private System.Windows.Forms.ListBox listNotes;
         private System.Windows.Forms.Panel panelDetails;
+        private System.Windows.Forms.PictureBox picPanelLogo;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
