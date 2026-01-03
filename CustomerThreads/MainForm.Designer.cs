@@ -40,6 +40,8 @@
             this.ctxRestore = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxExport = new System.Windows.Forms.ToolStripMenuItem();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.lblLastBackup = new System.Windows.Forms.Label();
+            this.btnArchived = new System.Windows.Forms.Button();
             this.btnNewThread = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuAdmin = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,18 +49,17 @@
             this.menuAdminLogout = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAdminChangePassword = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAdminRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnArchived = new System.Windows.Forms.Button();
             this.panelCustomerInfo = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblCustomerName = new System.Windows.Forms.Label();
-            this.lblCustomerDevice = new System.Windows.Forms.Label();
-            this.lblCustomerPhone = new System.Windows.Forms.Label();
-            this.listDevicesMain = new System.Windows.Forms.ListBox();
             this.lblCustomerCategory = new System.Windows.Forms.Label();
+            this.listDevicesMain = new System.Windows.Forms.ListBox();
+            this.lblCustomerPhone = new System.Windows.Forms.Label();
+            this.lblCustomerDevice = new System.Windows.Forms.Label();
+            this.lblCustomerName = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listNotes = new System.Windows.Forms.ListBox();
-            this.picPreview = new System.Windows.Forms.PictureBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
+            this.picPreview = new System.Windows.Forms.PictureBox();
+            this.listNotes = new System.Windows.Forms.ListBox();
             this.panelDetails = new System.Windows.Forms.Panel();
             this.picPanelLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -86,7 +87,7 @@
             "In Repair",
             "Waiting for Parts",
             "Finished"});
-            this.listCategories.Location = new System.Drawing.Point(51, 0);
+            this.listCategories.Location = new System.Drawing.Point(51, 3);
             this.listCategories.Name = "listCategories";
             this.listCategories.Size = new System.Drawing.Size(199, 24);
             this.listCategories.TabIndex = 1;
@@ -97,6 +98,7 @@
             this.panelThreads.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.panelThreads.Controls.Add(this.listThreads);
             this.panelThreads.Controls.Add(this.txtSearch);
+            this.panelThreads.Controls.Add(this.lblLastBackup);
             this.panelThreads.Controls.Add(this.btnArchived);
             this.panelThreads.Controls.Add(this.btnNewThread);
             this.panelThreads.Controls.Add(this.menuStrip1);
@@ -117,7 +119,7 @@
             this.listThreads.ForeColor = System.Drawing.Color.Black;
             this.listThreads.FormattingEnabled = true;
             this.listThreads.ItemHeight = 25;
-            this.listThreads.Location = new System.Drawing.Point(0, 126);
+            this.listThreads.Location = new System.Drawing.Point(0, 139);
             this.listThreads.MaximumSize = new System.Drawing.Size(250, 615);
             this.listThreads.MinimumSize = new System.Drawing.Size(247, 610);
             this.listThreads.Name = "listThreads";
@@ -138,7 +140,7 @@
             this.ctxExport});
             this.ctxThreadMenu.Name = "ctxThreadMenu";
             this.ctxThreadMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ctxThreadMenu.Size = new System.Drawing.Size(181, 136);
+            this.ctxThreadMenu.Size = new System.Drawing.Size(153, 114);
             this.ctxThreadMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ctxThreadMenu_Opening);
             // 
             // ctxEdit
@@ -179,7 +181,7 @@
             // txtSearch
             // 
             this.txtSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtSearch.Location = new System.Drawing.Point(0, 103);
+            this.txtSearch.Location = new System.Drawing.Point(0, 116);
             this.txtSearch.MaximumSize = new System.Drawing.Size(250, 25);
             this.txtSearch.MinimumSize = new System.Drawing.Size(248, 23);
             this.txtSearch.Name = "txtSearch";
@@ -188,6 +190,32 @@
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
+            // 
+            // lblLastBackup
+            // 
+            this.lblLastBackup.AutoSize = true;
+            this.lblLastBackup.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblLastBackup.Location = new System.Drawing.Point(0, 103);
+            this.lblLastBackup.MaximumSize = new System.Drawing.Size(100, 20);
+            this.lblLastBackup.MinimumSize = new System.Drawing.Size(80, 10);
+            this.lblLastBackup.Name = "lblLastBackup";
+            this.lblLastBackup.Size = new System.Drawing.Size(80, 13);
+            this.lblLastBackup.TabIndex = 5;
+            this.lblLastBackup.Text = "Last backup:";
+            // 
+            // btnArchived
+            // 
+            this.btnArchived.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnArchived.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnArchived.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArchived.ForeColor = System.Drawing.Color.Black;
+            this.btnArchived.Location = new System.Drawing.Point(0, 40);
+            this.btnArchived.Name = "btnArchived";
+            this.btnArchived.Size = new System.Drawing.Size(204, 63);
+            this.btnArchived.TabIndex = 3;
+            this.btnArchived.Text = "Open Archive";
+            this.btnArchived.UseVisualStyleBackColor = false;
+            this.btnArchived.Click += new System.EventHandler(this.btnArchived_Click);
             // 
             // btnNewThread
             // 
@@ -241,44 +269,30 @@
             // menuAdminLogin
             // 
             this.menuAdminLogin.Name = "menuAdminLogin";
-            this.menuAdminLogin.Size = new System.Drawing.Size(180, 22);
+            this.menuAdminLogin.Size = new System.Drawing.Size(168, 22);
             this.menuAdminLogin.Text = "Log in ";
             this.menuAdminLogin.Click += new System.EventHandler(this.menuAdminLogin_Click);
             // 
             // menuAdminLogout
             // 
             this.menuAdminLogout.Name = "menuAdminLogout";
-            this.menuAdminLogout.Size = new System.Drawing.Size(180, 22);
+            this.menuAdminLogout.Size = new System.Drawing.Size(168, 22);
             this.menuAdminLogout.Text = "Log out";
             this.menuAdminLogout.Click += new System.EventHandler(this.menuAdminLogout_Click);
             // 
             // menuAdminChangePassword
             // 
             this.menuAdminChangePassword.Name = "menuAdminChangePassword";
-            this.menuAdminChangePassword.Size = new System.Drawing.Size(180, 22);
+            this.menuAdminChangePassword.Size = new System.Drawing.Size(168, 22);
             this.menuAdminChangePassword.Text = "Change Password";
             this.menuAdminChangePassword.Click += new System.EventHandler(this.menuAdminChangePassword_Click);
             // 
             // menuAdminRefresh
             // 
             this.menuAdminRefresh.Name = "menuAdminRefresh";
-            this.menuAdminRefresh.Size = new System.Drawing.Size(180, 22);
+            this.menuAdminRefresh.Size = new System.Drawing.Size(168, 22);
             this.menuAdminRefresh.Text = "Refresh";
             this.menuAdminRefresh.Click += new System.EventHandler(this.menuAdminRefresh_Click);
-            // 
-            // btnArchived
-            // 
-            this.btnArchived.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnArchived.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnArchived.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnArchived.ForeColor = System.Drawing.Color.Black;
-            this.btnArchived.Location = new System.Drawing.Point(0, 40);
-            this.btnArchived.Name = "btnArchived";
-            this.btnArchived.Size = new System.Drawing.Size(204, 63);
-            this.btnArchived.TabIndex = 3;
-            this.btnArchived.Text = "Open Archive";
-            this.btnArchived.UseVisualStyleBackColor = false;
-            this.btnArchived.Click += new System.EventHandler(this.btnArchived_Click);
             // 
             // panelCustomerInfo
             // 
@@ -305,35 +319,15 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
-            // lblCustomerName
+            // lblCustomerCategory
             // 
-            this.lblCustomerName.AutoSize = true;
-            this.lblCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerName.Location = new System.Drawing.Point(26, 16);
-            this.lblCustomerName.Name = "lblCustomerName";
-            this.lblCustomerName.Size = new System.Drawing.Size(56, 16);
-            this.lblCustomerName.TabIndex = 0;
-            this.lblCustomerName.Text = "Name :";
-            // 
-            // lblCustomerDevice
-            // 
-            this.lblCustomerDevice.AutoSize = true;
-            this.lblCustomerDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerDevice.Location = new System.Drawing.Point(190, 16);
-            this.lblCustomerDevice.Name = "lblCustomerDevice";
-            this.lblCustomerDevice.Size = new System.Drawing.Size(82, 16);
-            this.lblCustomerDevice.TabIndex = 2;
-            this.lblCustomerDevice.Text = "Device(s) :";
-            // 
-            // lblCustomerPhone
-            // 
-            this.lblCustomerPhone.AutoSize = true;
-            this.lblCustomerPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerPhone.Location = new System.Drawing.Point(23, 58);
-            this.lblCustomerPhone.Name = "lblCustomerPhone";
-            this.lblCustomerPhone.Size = new System.Drawing.Size(59, 16);
-            this.lblCustomerPhone.TabIndex = 1;
-            this.lblCustomerPhone.Text = "Phone :";
+            this.lblCustomerCategory.AutoSize = true;
+            this.lblCustomerCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCustomerCategory.Location = new System.Drawing.Point(4, 92);
+            this.lblCustomerCategory.Name = "lblCustomerCategory";
+            this.lblCustomerCategory.Size = new System.Drawing.Size(78, 16);
+            this.lblCustomerCategory.TabIndex = 4;
+            this.lblCustomerCategory.Text = "Category :";
             // 
             // listDevicesMain
             // 
@@ -346,15 +340,35 @@
             this.listDevicesMain.Size = new System.Drawing.Size(810, 117);
             this.listDevicesMain.TabIndex = 5;
             // 
-            // lblCustomerCategory
+            // lblCustomerPhone
             // 
-            this.lblCustomerCategory.AutoSize = true;
-            this.lblCustomerCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerCategory.Location = new System.Drawing.Point(4, 92);
-            this.lblCustomerCategory.Name = "lblCustomerCategory";
-            this.lblCustomerCategory.Size = new System.Drawing.Size(78, 16);
-            this.lblCustomerCategory.TabIndex = 4;
-            this.lblCustomerCategory.Text = "Category :";
+            this.lblCustomerPhone.AutoSize = true;
+            this.lblCustomerPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCustomerPhone.Location = new System.Drawing.Point(23, 58);
+            this.lblCustomerPhone.Name = "lblCustomerPhone";
+            this.lblCustomerPhone.Size = new System.Drawing.Size(59, 16);
+            this.lblCustomerPhone.TabIndex = 1;
+            this.lblCustomerPhone.Text = "Phone :";
+            // 
+            // lblCustomerDevice
+            // 
+            this.lblCustomerDevice.AutoSize = true;
+            this.lblCustomerDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCustomerDevice.Location = new System.Drawing.Point(190, 16);
+            this.lblCustomerDevice.Name = "lblCustomerDevice";
+            this.lblCustomerDevice.Size = new System.Drawing.Size(82, 16);
+            this.lblCustomerDevice.TabIndex = 2;
+            this.lblCustomerDevice.Text = "Device(s) :";
+            // 
+            // lblCustomerName
+            // 
+            this.lblCustomerName.AutoSize = true;
+            this.lblCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCustomerName.Location = new System.Drawing.Point(26, 16);
+            this.lblCustomerName.Name = "lblCustomerName";
+            this.lblCustomerName.Size = new System.Drawing.Size(56, 16);
+            this.lblCustomerName.TabIndex = 0;
+            this.lblCustomerName.Text = "Name :";
             // 
             // groupBox2
             // 
@@ -369,26 +383,6 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             // 
-            // listNotes
-            // 
-            this.listNotes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listNotes.FormattingEnabled = true;
-            this.listNotes.ItemHeight = 18;
-            this.listNotes.Location = new System.Drawing.Point(3, 16);
-            this.listNotes.Name = "listNotes";
-            this.listNotes.Size = new System.Drawing.Size(303, 617);
-            this.listNotes.TabIndex = 2;
-            // 
-            // picPreview
-            // 
-            this.picPreview.Location = new System.Drawing.Point(532, 16);
-            this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(530, 393);
-            this.picPreview.TabIndex = 4;
-            this.picPreview.TabStop = false;
-            this.picPreview.Visible = false;
-            // 
             // listAttachmentsView
             // 
             this.listAttachmentsView.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -400,6 +394,26 @@
             this.listAttachmentsView.TabIndex = 3;
             this.listAttachmentsView.SelectedIndexChanged += new System.EventHandler(this.listAttachmentsView_SelectedIndexChanged);
             this.listAttachmentsView.DoubleClick += new System.EventHandler(this.listAttachmentsView_DoubleClick);
+            // 
+            // picPreview
+            // 
+            this.picPreview.Location = new System.Drawing.Point(532, 16);
+            this.picPreview.Name = "picPreview";
+            this.picPreview.Size = new System.Drawing.Size(530, 393);
+            this.picPreview.TabIndex = 4;
+            this.picPreview.TabStop = false;
+            this.picPreview.Visible = false;
+            // 
+            // listNotes
+            // 
+            this.listNotes.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listNotes.FormattingEnabled = true;
+            this.listNotes.ItemHeight = 18;
+            this.listNotes.Location = new System.Drawing.Point(3, 16);
+            this.listNotes.Name = "listNotes";
+            this.listNotes.Size = new System.Drawing.Size(303, 617);
+            this.listNotes.TabIndex = 2;
             // 
             // panelDetails
             // 
@@ -508,6 +522,7 @@
         private System.Windows.Forms.Panel panelDetails;
         private System.Windows.Forms.PictureBox picPanelLogo;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblLastBackup;
     }
 }
 

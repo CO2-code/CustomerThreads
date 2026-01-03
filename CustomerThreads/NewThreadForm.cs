@@ -13,6 +13,8 @@ namespace CustomerThreads
         private bool isEditMode = false;
         private CustomerThread editingThread;
 
+        private List<DeviceItem> tempDevices = new List<DeviceItem>();
+
         public NewThreadForm()
         {
             InitializeComponent();
@@ -27,14 +29,13 @@ namespace CustomerThreads
 
             txtName.Text = threadToEdit.CustomerName;
             txtPhone.Text = threadToEdit.Phone;
-            txtDevice.Text = string.Join(", ", threadToEdit.Devices);
             cmbCategory.Text = threadToEdit.Category;
+            numPrice.Value = threadToEdit.Price;
 
             Text = "Edit Thread";
             btnCreate.Text = "Save Changes";
 
-            numPrice.Value = threadToEdit.Price;
-
+            // Finished date
             if (threadToEdit.FinishedAt.HasValue)
             {
                 dtFinishedAt.Value = threadToEdit.FinishedAt.Value;
@@ -45,6 +46,7 @@ namespace CustomerThreads
                 dtFinishedAt.Checked = false;
             }
 
+            // Customer type
             if (threadToEdit.CustomerType == CustomerType.Company)
             {
                 rbCompany.Checked = true;
@@ -55,10 +57,22 @@ namespace CustomerThreads
                 rbIndividual.Checked = true;
             }
 
-            // Load attachments
+            // ---- LOAD DEVICES CORRECTLY ----
+            tempDevices = new List<DeviceItem>();
+            listDevices.Items.Clear();
+
+            foreach (var device in threadToEdit.Devices)
+            {
+                tempDevices.Add(device);
+                listDevices.Items.Add(device);
+            }
+
+            txtDevice.Clear(); // VERY IMPORTANT
+
+            // ---- LOAD ATTACHMENTS ----
             listAttachments.Items.Clear();
             foreach (var att in threadToEdit.Attachments)
-                listAttachments.Items.Add(att.FileName);
+                listAttachments.Items.Add(att.FilePath);
         }
 
         private void NewThreadForm_Load(object sender, EventArgs e)
@@ -86,18 +100,16 @@ namespace CustomerThreads
                 return;
             }
 
-            CustomerType type = rbCompany.Checked ? CustomerType.Company : CustomerType.Individual;
-            string companyName = rbCompany.Checked ? txtCompanyName.Text : null;
-
-            var devices = txtDevice.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                        .Select(d => d.Trim())
-                                        .ToList();
-
             if (tempDevices.Count == 0)
             {
                 MessageBox.Show("Add at least one device.");
                 return;
             }
+
+            CustomerType type = rbCompany.Checked ? CustomerType.Company : CustomerType.Individual;
+            string companyName = rbCompany.Checked ? txtCompanyName.Text : null;
+
+            string title = $"{txtName.Text} - {string.Join(", ", tempDevices.Select(d => d.Name))}";
 
             if (isEditMode)
             {
@@ -105,10 +117,9 @@ namespace CustomerThreads
                 editingThread.Phone = txtPhone.Text;
                 editingThread.Devices = tempDevices;
                 editingThread.Category = cmbCategory.Text;
-                editingThread.Title = $"{txtName.Text} - {string.Join(", ", devices)}";
+                editingThread.Title = title;
                 editingThread.Price = numPrice.Value;
                 editingThread.FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null;
-
                 editingThread.CustomerType = type;
                 editingThread.CompanyName = companyName;
 
@@ -117,23 +128,26 @@ namespace CustomerThreads
 
                 if (!string.IsNullOrWhiteSpace(txtNote.Text))
                 {
-                    var note = new ThreadNote();
-                    note.Text = txtNote.Text;
-                    note.CreatedAt = DateTime.Now;
-                    editingThread.Notes.Add(note);
+                    editingThread.Notes.Add(new ThreadNote
+                    {
+                        Text = txtNote.Text,
+                        CreatedAt = DateTime.Now
+                    });
                 }
 
-                // Save attachments
+                // Attachments
                 editingThread.Attachments.Clear();
                 foreach (var item in listAttachments.Items)
                 {
                     var filePath = item as string;
                     if (File.Exists(filePath))
+                    {
                         editingThread.Attachments.Add(new ThreadAttachment
                         {
                             FileName = Path.GetFileName(filePath),
                             FilePath = filePath
                         });
+                    }
                 }
             }
             else
@@ -144,7 +158,7 @@ namespace CustomerThreads
                     Phone = txtPhone.Text,
                     Devices = tempDevices,
                     Category = cmbCategory.Text,
-                    Title = $"{txtName.Text} - {string.Join(", ", devices)}",
+                    Title = title,
                     CreatedAt = DateTime.Now,
                     Price = numPrice.Value,
                     FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null,
@@ -155,55 +169,29 @@ namespace CustomerThreads
 
                 if (!string.IsNullOrWhiteSpace(txtNote.Text))
                 {
-                    var note = new ThreadNote();
-                    note.Text = txtNote.Text;
-                    note.CreatedAt = DateTime.Now;
-                    CreatedThread.Notes.Add(note);
+                    CreatedThread.Notes.Add(new ThreadNote
+                    {
+                        Text = txtNote.Text,
+                        CreatedAt = DateTime.Now
+                    });
                 }
 
-                // Save attachments
                 foreach (var item in listAttachments.Items)
                 {
                     var filePath = item as string;
                     if (File.Exists(filePath))
+                    {
                         CreatedThread.Attachments.Add(new ThreadAttachment
                         {
                             FileName = Path.GetFileName(filePath),
                             FilePath = filePath
                         });
+                    }
                 }
             }
 
             DialogResult = DialogResult.OK;
             Close();
-        }
-
-        private void rbCompany_CheckedChanged(object sender, EventArgs e)
-        {
-            txtCompanyName.Enabled = rbCompany.Checked;
-        }
-
-        // ------------------- Attachments Buttons -------------------
-        private void btnAddAttachment_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "Images & PDFs|*.jpg;*.jpeg;*.png;*.bmp;*.pdf|All Files|*.*";
-                ofd.Multiselect = true;
-                if (ofd.ShowDialog() != DialogResult.OK) return;
-
-                foreach (var file in ofd.FileNames)
-                {
-                    listAttachments.Items.Add(file);
-                }
-            }
-        }
-
-        private void btnRemoveAttachment_Click(object sender, EventArgs e)
-        {
-            var selectedIndices = listAttachments.SelectedIndices.Cast<int>().OrderByDescending(i => i).ToList();
-            foreach (var i in selectedIndices)
-                listAttachments.Items.RemoveAt(i);
         }
 
         private void btnAddDevice_Click(object sender, EventArgs e)
@@ -218,21 +206,16 @@ namespace CustomerThreads
             {
                 Name = txtDevice.Text.Trim(),
                 Price = numPrice.Value,
-                FinishedAt = dtFinishedAt.Checked
-                    ? dtFinishedAt.Value
-                    : (DateTime?)null
+                FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null
             };
 
             tempDevices.Add(device);
             listDevices.Items.Add(device);
 
-            // Reset inputs for next device
             txtDevice.Clear();
             numPrice.Value = 0;
             dtFinishedAt.Checked = false;
         }
-
-        private List<DeviceItem> tempDevices = new List<DeviceItem>();
 
         private void btnRemoveDevice_Click(object sender, EventArgs e)
         {
@@ -241,6 +224,35 @@ namespace CustomerThreads
                 tempDevices.Remove(device);
                 listDevices.Items.Remove(device);
             }
+        }
+
+        private void btnAddAttachment_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Images & PDFs|*.jpg;*.jpeg;*.png;*.bmp;*.pdf|All Files|*.*";
+                ofd.Multiselect = true;
+
+                if (ofd.ShowDialog() != DialogResult.OK) return;
+
+                foreach (var file in ofd.FileNames)
+                    listAttachments.Items.Add(file);
+            }
+        }
+
+        private void btnRemoveAttachment_Click(object sender, EventArgs e)
+        {
+            var selected = listAttachments.SelectedIndices.Cast<int>()
+                .OrderByDescending(i => i)
+                .ToList();
+
+            foreach (var i in selected)
+                listAttachments.Items.RemoveAt(i);
+        }
+
+        private void rbCompany_CheckedChanged(object sender, EventArgs e)
+        {
+            txtCompanyName.Enabled = rbCompany.Checked;
         }
 
         private void txtPhone_Enter(object sender, EventArgs e)

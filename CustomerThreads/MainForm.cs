@@ -152,12 +152,15 @@ namespace CustomerThreads
             var json = JsonConvert.SerializeObject(threads, Formatting.Indented);
             File.WriteAllText(dataFile, json);
 
-            // 🔥 Auto Google Drive backup
-            GoogleDriveBackup.BackupFile(dataFile);
+            // 🔥 Auto backup (fire and forget)
+            _ = GoogleDriveBackup.BackupFileAsync(dataFile);
         }
 
         void LoadData()
         {
+            // Try downloading latest backup first
+            GoogleDriveBackup.DownloadFile(dataFile);
+
             if (!File.Exists(dataFile))
                 return;
 
