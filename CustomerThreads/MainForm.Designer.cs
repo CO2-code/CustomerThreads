@@ -51,11 +51,11 @@
             this.menuAdminRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCustomerInfo = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listDeviceNotes = new System.Windows.Forms.ListBox();
             this.lblCustomerCategory = new System.Windows.Forms.Label();
             this.listDevicesMain = new System.Windows.Forms.ListBox();
             this.lblCustomerPhone = new System.Windows.Forms.Label();
             this.lblCustomerName = new System.Windows.Forms.Label();
+            this.listDeviceNotes = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
@@ -317,16 +317,6 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
-            // listDeviceNotes
-            // 
-            this.listDeviceNotes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listDeviceNotes.FormattingEnabled = true;
-            this.listDeviceNotes.Location = new System.Drawing.Point(223, 16);
-            this.listDeviceNotes.Name = "listDeviceNotes";
-            this.listDeviceNotes.Size = new System.Drawing.Size(279, 617);
-            this.listDeviceNotes.TabIndex = 6;
-            this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
-            // 
             // lblCustomerCategory
             // 
             this.lblCustomerCategory.AutoSize = true;
@@ -367,6 +357,16 @@
             this.lblCustomerName.Size = new System.Drawing.Size(56, 16);
             this.lblCustomerName.TabIndex = 0;
             this.lblCustomerName.Text = "Name :";
+            // 
+            // listDeviceNotes
+            // 
+            this.listDeviceNotes.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listDeviceNotes.FormattingEnabled = true;
+            this.listDeviceNotes.Location = new System.Drawing.Point(223, 16);
+            this.listDeviceNotes.Name = "listDeviceNotes";
+            this.listDeviceNotes.Size = new System.Drawing.Size(279, 617);
+            this.listDeviceNotes.TabIndex = 6;
+            this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
             // 
             // groupBox2
             // 
