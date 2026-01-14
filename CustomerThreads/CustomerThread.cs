@@ -23,7 +23,7 @@ namespace CustomerThreads
         public CustomerType CustomerType { get; set; }
         public string CompanyName { get; set; }
 
-        public List<ThreadNote> Notes { get; set; } = new List<ThreadNote>();
+      //  public List<ThreadNote> Notes { get; set; } = new List<ThreadNote>();
 
         // ---------- Attachments ----------
         public List<ThreadAttachment> Attachments { get; set; } = new List<ThreadAttachment>();

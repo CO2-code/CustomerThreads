@@ -59,7 +59,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
-            this.listNotes = new System.Windows.Forms.ListBox();
             this.panelDetails = new System.Windows.Forms.Panel();
             this.picPanelLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -307,7 +306,6 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Lavender;
-            this.groupBox1.Controls.Add(this.listDeviceNotes);
             this.groupBox1.Controls.Add(this.lblCustomerCategory);
             this.groupBox1.Controls.Add(this.listDevicesMain);
             this.groupBox1.Controls.Add(this.lblCustomerPhone);
@@ -321,10 +319,11 @@
             // 
             // listDeviceNotes
             // 
+            this.listDeviceNotes.Dock = System.Windows.Forms.DockStyle.Left;
             this.listDeviceNotes.FormattingEnabled = true;
-            this.listDeviceNotes.Location = new System.Drawing.Point(177, 12);
+            this.listDeviceNotes.Location = new System.Drawing.Point(223, 16);
             this.listDeviceNotes.Name = "listDeviceNotes";
-            this.listDeviceNotes.Size = new System.Drawing.Size(279, 121);
+            this.listDeviceNotes.Size = new System.Drawing.Size(279, 617);
             this.listDeviceNotes.TabIndex = 6;
             this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
             // 
@@ -373,9 +372,9 @@
             // 
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox2.AutoSize = true;
+            this.groupBox2.Controls.Add(this.listDeviceNotes);
             this.groupBox2.Controls.Add(this.listAttachmentsView);
             this.groupBox2.Controls.Add(this.picPreview);
-            this.groupBox2.Controls.Add(this.listNotes);
             this.groupBox2.Location = new System.Drawing.Point(0, 139);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1068, 636);
@@ -387,7 +386,7 @@
             this.listAttachmentsView.Cursor = System.Windows.Forms.Cursors.Hand;
             this.listAttachmentsView.Dock = System.Windows.Forms.DockStyle.Left;
             this.listAttachmentsView.FormattingEnabled = true;
-            this.listAttachmentsView.Location = new System.Drawing.Point(306, 16);
+            this.listAttachmentsView.Location = new System.Drawing.Point(3, 16);
             this.listAttachmentsView.Name = "listAttachmentsView";
             this.listAttachmentsView.Size = new System.Drawing.Size(220, 617);
             this.listAttachmentsView.TabIndex = 3;
@@ -402,17 +401,6 @@
             this.picPreview.TabIndex = 4;
             this.picPreview.TabStop = false;
             this.picPreview.Visible = false;
-            // 
-            // listNotes
-            // 
-            this.listNotes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listNotes.FormattingEnabled = true;
-            this.listNotes.ItemHeight = 18;
-            this.listNotes.Location = new System.Drawing.Point(3, 16);
-            this.listNotes.Name = "listNotes";
-            this.listNotes.Size = new System.Drawing.Size(303, 617);
-            this.listNotes.TabIndex = 2;
             // 
             // panelDetails
             // 
@@ -516,7 +504,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox listAttachmentsView;
         private System.Windows.Forms.PictureBox picPreview;
-        private System.Windows.Forms.ListBox listNotes;
+     //   private System.Windows.Forms.ListBox listNotes;
         private System.Windows.Forms.Panel panelDetails;
         private System.Windows.Forms.PictureBox picPanelLogo;
         private System.Windows.Forms.Panel panel1;

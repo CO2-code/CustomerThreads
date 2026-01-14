@@ -44,7 +44,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.rbIndividual = new System.Windows.Forms.RadioButton();
             this.rbCompany = new System.Windows.Forms.RadioButton();
-            this.txtCompanyName = new System.Windows.Forms.TextBox();
             this.txtDevice = new System.Windows.Forms.TextBox();
             this.listAttachments = new System.Windows.Forms.ListBox();
             this.btnAddAttachment = new System.Windows.Forms.Button();
@@ -232,13 +231,6 @@
             this.rbCompany.UseVisualStyleBackColor = true;
             this.rbCompany.CheckedChanged += new System.EventHandler(this.rbCompany_CheckedChanged);
             // 
-            // txtCompanyName
-            // 
-            this.txtCompanyName.Location = new System.Drawing.Point(517, 134);
-            this.txtCompanyName.Name = "txtCompanyName";
-            this.txtCompanyName.Size = new System.Drawing.Size(200, 20);
-            this.txtCompanyName.TabIndex = 18;
-            // 
             // txtDevice
             // 
             this.txtDevice.Location = new System.Drawing.Point(141, 100);
@@ -342,7 +334,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAddDevice);
             this.Controls.Add(this.txtDevice);
-            this.Controls.Add(this.txtCompanyName);
             this.Controls.Add(this.rbCompany);
             this.Controls.Add(this.rbIndividual);
             this.Controls.Add(this.label2);
@@ -388,7 +379,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RadioButton rbIndividual;
         private System.Windows.Forms.RadioButton rbCompany;
-        private System.Windows.Forms.TextBox txtCompanyName;
+        // private System.Windows.Forms.TextBox txtCompanyName;
         private System.Windows.Forms.TextBox txtDevice;
         private System.Windows.Forms.ListBox listAttachments;
         private System.Windows.Forms.Button btnAddAttachment;
