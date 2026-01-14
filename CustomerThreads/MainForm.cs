@@ -493,9 +493,9 @@ namespace CustomerThreads
 
             lines.Add("Title,Customer,Phone,Device(s),Category,CreatedAt,FinishedAt,Price,Archived,Notes,Attachments");
 
-            string notes = string.Join(" | ",
-                t.Notes.Select(n =>
-                    $"{n.CreatedAt:yyyy-MM-dd HH:mm}: {n.Text.Replace(",", " ")}"));
+            //string notes = string.Join(" | ",
+              //  t.Notes.Select(n =>
+                  //  $"{n.CreatedAt:yyyy-MM-dd HH:mm}: {n.Text.Replace(",", " ")}"));
 
             string attachments = string.Join(" | ", t.Attachments.Select(a => a.FileName));
 
@@ -509,7 +509,7 @@ namespace CustomerThreads
                 t.FinishedAt.HasValue ? t.FinishedAt.Value.ToString("yyyy-MM-dd HH:mm") : "-",
                 t.Price.ToString("0.00"),
                 t.IsArchived ? "Yes" : "No",
-                Escape(notes),
+               // Escape(notes),
                 Escape(attachments)
             );
 

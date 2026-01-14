@@ -341,11 +341,11 @@
             // 
             this.listDevicesMain.Dock = System.Windows.Forms.DockStyle.Right;
             this.listDevicesMain.FormattingEnabled = true;
-            this.listDevicesMain.Location = new System.Drawing.Point(462, 16);
+            this.listDevicesMain.Location = new System.Drawing.Point(252, 16);
             this.listDevicesMain.MaximumSize = new System.Drawing.Size(815, 118);
-            this.listDevicesMain.MinimumSize = new System.Drawing.Size(600, 117);
+            this.listDevicesMain.MinimumSize = new System.Drawing.Size(810, 117);
             this.listDevicesMain.Name = "listDevicesMain";
-            this.listDevicesMain.Size = new System.Drawing.Size(600, 117);
+            this.listDevicesMain.Size = new System.Drawing.Size(810, 117);
             this.listDevicesMain.TabIndex = 5;
             // 
             // lblCustomerPhone
