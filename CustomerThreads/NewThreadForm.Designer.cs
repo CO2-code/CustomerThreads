@@ -1,6 +1,6 @@
 ﻿namespace CustomerThreads
 {
-    partial class MainForm
+    partial class NewThreadForm
     {
         /// <summary>
         /// Required designer variable.
