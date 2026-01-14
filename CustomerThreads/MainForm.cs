@@ -45,40 +45,31 @@ namespace CustomerThreads
         {
             ClearAttachmentsUI();
 
+            // ✅ Always keep device notes empty when a thread is selected
+            listDeviceNote.Items.Clear();
+
             if (listThreads.SelectedItem is CustomerThread thread)
             {
                 ShowDetails();
 
-                // lblThreadTitle.Text = thread.Title;
                 lblCustomerName.Text = "Name: " + thread.CustomerName;
                 lblCustomerPhone.Text = "Phone: " + thread.Phone;
                 lblCustomerCategory.Text = "Category: " + thread.Category;
 
-                // ✅ DEVICE LIST
+                // Devices list
                 listDevicesMain.Items.Clear();
                 foreach (var device in thread.Devices)
                     listDevicesMain.Items.Add(device);
 
-                // ✅ THREAD NOTES
-                //listNotes.Items.Clear();
-                //foreach (var note in thread.Notes)
-                // listNotes.Items.Add(note);
+                // Thread notes (if you have them)
+               // listNotes.Items.Clear();
+              //  foreach (var note in thread.Notes)
+                 //   listNotes.Items.Add(note);
 
-                // ✅ ATTACHMENTS
+                // Attachments
                 listAttachmentsView.Items.Clear();
                 foreach (var att in thread.Attachments)
                     listAttachmentsView.Items.Add(att);
-
-                // ✅ DEVICE NOTES
-                listDeviceNote.Items.Clear(); // <-- NEW
-                foreach (var device in thread.Devices)
-                {
-                    listDeviceNote.Items.Add($"--- {device.Name} ---"); // optional separator
-                    foreach (var note in device.Notes)  // DeviceNote list
-                    {
-                        listDeviceNote.Items.Add($"{note.Text} (Created: {note.CreatedAt:yyyy-MM-dd HH:mm})");
-                    }
-                }
             }
         }
         private void listAttachmentsView_DoubleClick(object sender, EventArgs e)
@@ -614,24 +605,22 @@ namespace CustomerThreads
 
         private void listDevicesMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Clear notes first
             listDeviceNote.Items.Clear();
 
-            // Only populate if a device is selected
             if (listDevicesMain.SelectedItem is DeviceItem device)
             {
-                // ✅ Show each device note with timestamp
+                // ✅ Device notes
                 foreach (var note in device.Notes)
                 {
-                    string timestamp = note.CreatedAt.ToString("HH:mm dd-MM-yyyy");
-                    listDeviceNote.Items.Add($"• ({timestamp}) {note.Text}");
+                    string time = note.CreatedAt.ToString("HH:mm dd-MM-yyyy");
+                    listDeviceNote.Items.Add($"• ({time}) {note.Text}");
                 }
 
-                // ✅ Separator if there are notes
+                // Separator if notes exist
                 if (device.Notes.Count > 0)
                     listDeviceNote.Items.Add("----------------------------");
 
-                // ✅ Show optional metadata
+                // ✅ Optional metadata
                 if (!string.IsNullOrWhiteSpace(device.DeviceType))
                     listDeviceNote.Items.Add("Type: " + device.DeviceType);
 
@@ -641,10 +630,10 @@ namespace CustomerThreads
                 if (!string.IsNullOrWhiteSpace(device.SerialNumber))
                     listDeviceNote.Items.Add("Serial: " + device.SerialNumber);
 
-                // ✅ Show device creation timestamp
-                listDeviceNote.Items.Add("Added: " + device.CreatedAt.ToString("HH:mm dd-MM-yyyy"));
+                listDeviceNote.Items.Add(
+                    "Added: " + device.CreatedAt.ToString("HH:mm dd-MM-yyyy")
+                );
             }
-            // ✅ If no device selected, listDeviceNotes remains empty
         }
     }
 }
