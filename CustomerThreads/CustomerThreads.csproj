@@ -96,7 +96,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityHelper.cs" />
     <Compile Include="ThreadAttachment.cs" />
-    <Compile Include="ThreadNote.cs" />
     <EmbeddedResource Include="ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
