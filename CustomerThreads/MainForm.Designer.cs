@@ -55,13 +55,13 @@
             this.listDevicesMain = new System.Windows.Forms.ListBox();
             this.lblCustomerPhone = new System.Windows.Forms.Label();
             this.lblCustomerName = new System.Windows.Forms.Label();
-            this.listDeviceNote = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.panelDetails = new System.Windows.Forms.Panel();
             this.picPanelLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.listDeviceNote = new System.Windows.Forms.RichTextBox();
             this.panelThreads.SuspendLayout();
             this.ctxThreadMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -359,15 +359,6 @@
             this.lblCustomerName.TabIndex = 0;
             this.lblCustomerName.Text = "Name :";
             // 
-            // listDeviceNote
-            // 
-            this.listDeviceNote.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listDeviceNote.FormattingEnabled = true;
-            this.listDeviceNote.Location = new System.Drawing.Point(223, 16);
-            this.listDeviceNote.Name = "listDeviceNote";
-            this.listDeviceNote.Size = new System.Drawing.Size(279, 617);
-            this.listDeviceNote.TabIndex = 6;
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -380,6 +371,7 @@
             this.groupBox2.Size = new System.Drawing.Size(1068, 636);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // listAttachmentsView
             // 
@@ -423,9 +415,9 @@
             this.picPanelLogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picPanelLogo.Enabled = false;
             this.picPanelLogo.Image = ((System.Drawing.Image)(resources.GetObject("picPanelLogo.Image")));
-            this.picPanelLogo.Location = new System.Drawing.Point(0, 0);
+            this.picPanelLogo.Location = new System.Drawing.Point(250, 0);
             this.picPanelLogo.Name = "picPanelLogo";
-            this.picPanelLogo.Size = new System.Drawing.Size(1319, 560);
+            this.picPanelLogo.Size = new System.Drawing.Size(1069, 550);
             this.picPanelLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPanelLogo.TabIndex = 6;
             this.picPanelLogo.TabStop = false;
@@ -441,6 +433,21 @@
             this.panel1.Size = new System.Drawing.Size(1319, 10);
             this.panel1.TabIndex = 5;
             // 
+            // listDeviceNote
+            // 
+            this.listDeviceNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listDeviceNote.DetectUrls = false;
+            this.listDeviceNote.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listDeviceNote.Location = new System.Drawing.Point(223, 16);
+            this.listDeviceNote.MaximumSize = new System.Drawing.Size(500, 700);
+            this.listDeviceNote.MinimumSize = new System.Drawing.Size(303, 620);
+            this.listDeviceNote.Name = "listDeviceNote";
+            this.listDeviceNote.ReadOnly = true;
+            this.listDeviceNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.listDeviceNote.Size = new System.Drawing.Size(303, 620);
+            this.listDeviceNote.TabIndex = 7;
+            this.listDeviceNote.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,10 +455,10 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.CadetBlue;
             this.ClientSize = new System.Drawing.Size(1319, 560);
+            this.Controls.Add(this.picPanelLogo);
             this.Controls.Add(this.panelDetails);
             this.Controls.Add(this.panelThreads);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.picPanelLogo);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.ShowIcon = false;
@@ -509,7 +516,7 @@
         private System.Windows.Forms.PictureBox picPanelLogo;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblLastBackup;
-        private System.Windows.Forms.ListBox listDeviceNote;
+        private System.Windows.Forms.RichTextBox listDeviceNote;
     }
 }
 

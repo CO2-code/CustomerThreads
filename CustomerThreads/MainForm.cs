@@ -46,7 +46,7 @@ namespace CustomerThreads
             ClearAttachmentsUI();
 
             // ✅ Always keep device notes empty when a thread is selected
-            listDeviceNote.Items.Clear();
+            listDeviceNote.Clear();
 
             if (listThreads.SelectedItem is CustomerThread thread)
             {
@@ -605,35 +605,39 @@ namespace CustomerThreads
 
         private void listDevicesMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listDeviceNote.Items.Clear();
+            listDeviceNote.Clear();
 
             if (listDevicesMain.SelectedItem is DeviceItem device)
             {
-                // ✅ Device notes
                 foreach (var note in device.Notes)
                 {
-                    string time = note.CreatedAt.ToString("HH:mm dd-MM-yyyy");
-                    listDeviceNote.Items.Add($"• ({time}) {note.Text}");
+                    listDeviceNote.AppendText(
+                        $"• ({note.CreatedAt:HH:mm dd-MM-yyyy}) {note.Text}"
+                        + Environment.NewLine + Environment.NewLine
+                    );
                 }
 
-                // Separator if notes exist
                 if (device.Notes.Count > 0)
-                    listDeviceNote.Items.Add("----------------------------");
+                    listDeviceNote.AppendText("----------------------------" + Environment.NewLine);
 
-                // ✅ Optional metadata
                 if (!string.IsNullOrWhiteSpace(device.DeviceType))
-                    listDeviceNote.Items.Add("Type: " + device.DeviceType);
+                    listDeviceNote.AppendText("Type: " + device.DeviceType + Environment.NewLine);
 
                 if (!string.IsNullOrWhiteSpace(device.ModelNumber))
-                    listDeviceNote.Items.Add("Model: " + device.ModelNumber);
+                    listDeviceNote.AppendText("Model: " + device.ModelNumber + Environment.NewLine);
 
                 if (!string.IsNullOrWhiteSpace(device.SerialNumber))
-                    listDeviceNote.Items.Add("Serial: " + device.SerialNumber);
+                    listDeviceNote.AppendText("Serial: " + device.SerialNumber + Environment.NewLine);
 
-                listDeviceNote.Items.Add(
+                listDeviceNote.AppendText(
                     "Added: " + device.CreatedAt.ToString("HH:mm dd-MM-yyyy")
                 );
             }
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
