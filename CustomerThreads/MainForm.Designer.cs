@@ -55,7 +55,7 @@
             this.listDevicesMain = new System.Windows.Forms.ListBox();
             this.lblCustomerPhone = new System.Windows.Forms.Label();
             this.lblCustomerName = new System.Windows.Forms.Label();
-            this.listDeviceNotes = new System.Windows.Forms.ListBox();
+            this.listDeviceNote = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
@@ -331,12 +331,13 @@
             // 
             this.listDevicesMain.Dock = System.Windows.Forms.DockStyle.Right;
             this.listDevicesMain.FormattingEnabled = true;
-            this.listDevicesMain.Location = new System.Drawing.Point(252, 16);
+            this.listDevicesMain.Location = new System.Drawing.Point(248, 16);
             this.listDevicesMain.MaximumSize = new System.Drawing.Size(815, 118);
             this.listDevicesMain.MinimumSize = new System.Drawing.Size(810, 117);
             this.listDevicesMain.Name = "listDevicesMain";
-            this.listDevicesMain.Size = new System.Drawing.Size(810, 117);
+            this.listDevicesMain.Size = new System.Drawing.Size(814, 117);
             this.listDevicesMain.TabIndex = 5;
+            this.listDevicesMain.SelectedIndexChanged += new System.EventHandler(this.listDevicesMain_SelectedIndexChanged);
             // 
             // lblCustomerPhone
             // 
@@ -358,21 +359,20 @@
             this.lblCustomerName.TabIndex = 0;
             this.lblCustomerName.Text = "Name :";
             // 
-            // listDeviceNotes
+            // listDeviceNote
             // 
-            this.listDeviceNotes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listDeviceNotes.FormattingEnabled = true;
-            this.listDeviceNotes.Location = new System.Drawing.Point(223, 16);
-            this.listDeviceNotes.Name = "listDeviceNotes";
-            this.listDeviceNotes.Size = new System.Drawing.Size(279, 617);
-            this.listDeviceNotes.TabIndex = 6;
-            this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
+            this.listDeviceNote.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listDeviceNote.FormattingEnabled = true;
+            this.listDeviceNote.Location = new System.Drawing.Point(223, 16);
+            this.listDeviceNote.Name = "listDeviceNote";
+            this.listDeviceNote.Size = new System.Drawing.Size(279, 617);
+            this.listDeviceNote.TabIndex = 6;
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox2.AutoSize = true;
-            this.groupBox2.Controls.Add(this.listDeviceNotes);
+            this.groupBox2.Controls.Add(this.listDeviceNote);
             this.groupBox2.Controls.Add(this.listAttachmentsView);
             this.groupBox2.Controls.Add(this.picPreview);
             this.groupBox2.Location = new System.Drawing.Point(0, 139);
@@ -509,7 +509,7 @@
         private System.Windows.Forms.PictureBox picPanelLogo;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblLastBackup;
-        private System.Windows.Forms.ListBox listDeviceNotes;
+        private System.Windows.Forms.ListBox listDeviceNote;
     }
 }
 
