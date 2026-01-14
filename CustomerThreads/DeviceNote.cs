@@ -9,8 +9,8 @@ namespace CustomerThreads
 
         public override string ToString()
         {
-            string created = CreatedAt.ToString("yyyy-MM-dd HH:mm");
-            return $"{Text} (Created: {created})";
+            // Example: 10:20 22-04-2026
+            return $"{CreatedAt:HH:mm dd-MM-yyyy} - {Text}";
         }
     }
 }

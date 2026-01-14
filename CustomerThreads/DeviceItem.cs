@@ -5,14 +5,19 @@ namespace CustomerThreads
 {
     public class DeviceItem
     {
+        // Required
         public string Name { get; set; }
 
-        // When the device was added to the job
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        // Optional device info
+        public string DeviceType { get; set; }     // Laptop, Phone, Console, etc
+        public string ModelNumber { get; set; }
+        public string SerialNumber { get; set; }
 
-        // When the device was finished (optional)
+        // Dates
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? FinishedAt { get; set; }
 
+        // Price
         public decimal Price { get; set; }
 
         // ✅ Device-specific notes ONLY
@@ -20,13 +25,11 @@ namespace CustomerThreads
 
         public override string ToString()
         {
-            string created = CreatedAt.ToString("yyyy-MM-dd");
-
             string finished = FinishedAt.HasValue
-                ? FinishedAt.Value.ToString("yyyy-MM-dd")
+                ? FinishedAt.Value.ToString("dd-MM-yyyy")
                 : "In progress";
 
-            return $"{Name} | {Price:0.00} | Created: {created} | Finished: {finished} | Notes: {Notes.Count}";
+            return $"{Name} | {Price:0.00} | Finished: {finished} | Notes: {Notes.Count}";
         }
     }
 }

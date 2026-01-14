@@ -188,6 +188,9 @@ namespace CustomerThreads
             var device = new DeviceItem
             {
                 Name = txtDevice.Text.Trim(),
+                DeviceType = txtDeviceType.Text.Trim(),     // ✅ optional
+                ModelNumber = txtModelNumber.Text.Trim(),   // ✅ optional
+                SerialNumber = txtSerialNumber.Text.Trim(), // ✅ optional
                 Price = numPrice.Value,
                 FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null
             };
@@ -204,9 +207,12 @@ namespace CustomerThreads
             tempDevices.Add(device);
             listDevices.Items.Add(device);
 
-            // reset inputs
+            // ✅ RESET INPUTS
             txtDevice.Clear();
-            txtDeviceNote.Clear();   // ✅ clear note too
+            txtDeviceType.Clear();
+            txtModelNumber.Clear();
+            txtSerialNumber.Clear();
+            txtDeviceNote.Clear();
             numPrice.Value = 0;
             dtFinishedAt.Checked = false;
         }
@@ -253,6 +259,11 @@ namespace CustomerThreads
         {
             txtPhone.SelectionStart = 0;
             txtPhone.SelectionLength = 0;
+        }
+
+        private void lblCategory_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -612,9 +612,34 @@ namespace CustomerThreads
             }
         }
 
-        private void listDeviceNotes_SelectedIndexChanged(object sender, EventArgs e)
+        private void listDevicesMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            listDeviceNotes.Items.Clear();
 
+            if (listDevicesMain.SelectedItem is DeviceItem device)
+            {
+                // ✅ Device notes
+                foreach (var note in device.Notes)
+                {
+                    listDeviceNotes.Items.Add("• " + note.Text);
+                }
+
+                // ✅ Metadata under notes
+                listDeviceNotes.Items.Add("----------------------------");
+
+                if (!string.IsNullOrWhiteSpace(device.DeviceType))
+                    listDeviceNotes.Items.Add("Type: " + device.DeviceType);
+
+                if (!string.IsNullOrWhiteSpace(device.ModelNumber))
+                    listDeviceNotes.Items.Add("Model: " + device.ModelNumber);
+
+                if (!string.IsNullOrWhiteSpace(device.SerialNumber))
+                    listDeviceNotes.Items.Add("Serial: " + device.SerialNumber);
+
+                listDeviceNotes.Items.Add(
+                    "Added: " + device.CreatedAt.ToString("HH:mm dd-MM-yyyy")
+                );
+            }
         }
     }
 }

@@ -53,6 +53,12 @@
             this.btnRemoveDevice = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.txtModelNumber = new System.Windows.Forms.TextBox();
+            this.txtSerialNumber = new System.Windows.Forms.TextBox();
+            this.txtDeviceType = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -99,17 +105,18 @@
             // 
             this.lblCategory.AutoSize = true;
             this.lblCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCategory.Location = new System.Drawing.Point(64, 152);
+            this.lblCategory.Location = new System.Drawing.Point(440, 105);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(71, 15);
             this.lblCategory.TabIndex = 6;
             this.lblCategory.Text = "Category :";
+            this.lblCategory.Click += new System.EventHandler(this.lblCategory_Click);
             // 
             // cmbCategory
             // 
             this.cmbCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCategory.FormattingEnabled = true;
-            this.cmbCategory.Location = new System.Drawing.Point(141, 146);
+            this.cmbCategory.Location = new System.Drawing.Point(517, 99);
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Size = new System.Drawing.Size(200, 21);
             this.cmbCategory.TabIndex = 7;
@@ -211,7 +218,7 @@
             // rbIndividual
             // 
             this.rbIndividual.AutoSize = true;
-            this.rbIndividual.Location = new System.Drawing.Point(441, 114);
+            this.rbIndividual.Location = new System.Drawing.Point(413, 192);
             this.rbIndividual.Name = "rbIndividual";
             this.rbIndividual.Size = new System.Drawing.Size(70, 17);
             this.rbIndividual.TabIndex = 16;
@@ -222,7 +229,7 @@
             // rbCompany
             // 
             this.rbCompany.AutoSize = true;
-            this.rbCompany.Location = new System.Drawing.Point(442, 137);
+            this.rbCompany.Location = new System.Drawing.Point(506, 192);
             this.rbCompany.Name = "rbCompany";
             this.rbCompany.Size = new System.Drawing.Size(69, 17);
             this.rbCompany.TabIndex = 17;
@@ -324,12 +331,66 @@
             this.panel2.Size = new System.Drawing.Size(560, 215);
             this.panel2.TabIndex = 27;
             // 
+            // txtModelNumber
+            // 
+            this.txtModelNumber.Location = new System.Drawing.Point(141, 127);
+            this.txtModelNumber.Name = "txtModelNumber";
+            this.txtModelNumber.Size = new System.Drawing.Size(200, 20);
+            this.txtModelNumber.TabIndex = 28;
+            // 
+            // txtSerialNumber
+            // 
+            this.txtSerialNumber.Location = new System.Drawing.Point(141, 154);
+            this.txtSerialNumber.Name = "txtSerialNumber";
+            this.txtSerialNumber.Size = new System.Drawing.Size(200, 20);
+            this.txtSerialNumber.TabIndex = 29;
+            // 
+            // txtDeviceType
+            // 
+            this.txtDeviceType.Location = new System.Drawing.Point(141, 181);
+            this.txtDeviceType.Name = "txtDeviceType";
+            this.txtDeviceType.Size = new System.Drawing.Size(200, 20);
+            this.txtDeviceType.TabIndex = 30;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(99, 134);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.TabIndex = 31;
+            this.label3.Text = "M. N :";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(101, 161);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.TabIndex = 32;
+            this.label4.Text = "S. N :";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(98, 186);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(37, 13);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "Type :";
+            // 
             // NewThreadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(1310, 677);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtDeviceType);
+            this.Controls.Add(this.txtSerialNumber);
+            this.Controls.Add(this.txtModelNumber);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAddDevice);
@@ -390,5 +451,11 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox txtDeviceNote;
+        private System.Windows.Forms.TextBox txtModelNumber;
+        private System.Windows.Forms.TextBox txtSerialNumber;
+        private System.Windows.Forms.TextBox txtDeviceType;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
