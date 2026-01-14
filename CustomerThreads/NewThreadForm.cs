@@ -126,15 +126,6 @@ namespace CustomerThreads
                 if (editingThread.Category == "Finished" && !editingThread.FinishedAt.HasValue)
                     editingThread.FinishedAt = DateTime.Now;
 
-                if (!string.IsNullOrWhiteSpace(txtNote.Text))
-                {
-                    editingThread.Notes.Add(new ThreadNote
-                    {
-                        Text = txtNote.Text,
-                        CreatedAt = DateTime.Now
-                    });
-                }
-
                 // Attachments
                 editingThread.Attachments.Clear();
                 foreach (var item in listAttachments.Items)
@@ -167,14 +158,6 @@ namespace CustomerThreads
                     Attachments = new List<ThreadAttachment>()
                 };
 
-                if (!string.IsNullOrWhiteSpace(txtNote.Text))
-                {
-                    CreatedThread.Notes.Add(new ThreadNote
-                    {
-                        Text = txtNote.Text,
-                        CreatedAt = DateTime.Now
-                    });
-                }
 
                 foreach (var item in listAttachments.Items)
                 {

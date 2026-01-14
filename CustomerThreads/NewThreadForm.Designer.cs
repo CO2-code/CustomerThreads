@@ -36,7 +36,7 @@
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.btnCreate = new System.Windows.Forms.Button();
             this.lblNote = new System.Windows.Forms.Label();
-            this.txtNote = new System.Windows.Forms.TextBox();
+            this.txtDeviceNote = new System.Windows.Forms.TextBox();
             this.txtPhone = new System.Windows.Forms.MaskedTextBox();
             this.dtFinishedAt = new System.Windows.Forms.DateTimePicker();
             this.numPrice = new System.Windows.Forms.NumericUpDown();
@@ -54,7 +54,6 @@
             this.btnRemoveDevice = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.txtDeviceNote = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -141,18 +140,18 @@
             this.lblNote.TabIndex = 9;
             this.lblNote.Text = "Notes :";
             // 
-            // txtNote
+            // txtDeviceNote
             // 
-            this.txtNote.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txtNote.Location = new System.Drawing.Point(0, 22);
-            this.txtNote.Margin = new System.Windows.Forms.Padding(0);
-            this.txtNote.MaximumSize = new System.Drawing.Size(800, 400);
-            this.txtNote.MinimumSize = new System.Drawing.Size(750, 380);
-            this.txtNote.Multiline = true;
-            this.txtNote.Name = "txtNote";
-            this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNote.Size = new System.Drawing.Size(800, 400);
-            this.txtNote.TabIndex = 10;
+            this.txtDeviceNote.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.txtDeviceNote.Location = new System.Drawing.Point(0, 22);
+            this.txtDeviceNote.Margin = new System.Windows.Forms.Padding(0);
+            this.txtDeviceNote.MaximumSize = new System.Drawing.Size(800, 400);
+            this.txtDeviceNote.MinimumSize = new System.Drawing.Size(750, 380);
+            this.txtDeviceNote.Multiline = true;
+            this.txtDeviceNote.Name = "txtDeviceNote";
+            this.txtDeviceNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDeviceNote.Size = new System.Drawing.Size(800, 400);
+            this.txtDeviceNote.TabIndex = 10;
             // 
             // txtPhone
             // 
@@ -313,7 +312,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.panel1.Controls.Add(this.lblNote);
-            this.panel1.Controls.Add(this.txtNote);
+            this.panel1.Controls.Add(this.txtDeviceNote);
             this.panel1.Controls.Add(this.btnAddAttachment);
             this.panel1.Controls.Add(this.btnRemoveAttachment);
             this.panel1.Controls.Add(this.listAttachments);
@@ -333,20 +332,12 @@
             this.panel2.Size = new System.Drawing.Size(560, 215);
             this.panel2.TabIndex = 27;
             // 
-            // txtDeviceNote
-            // 
-            this.txtDeviceNote.Location = new System.Drawing.Point(441, 187);
-            this.txtDeviceNote.Name = "txtDeviceNote";
-            this.txtDeviceNote.Size = new System.Drawing.Size(296, 20);
-            this.txtDeviceNote.TabIndex = 28;
-            // 
             // NewThreadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(1310, 677);
-            this.Controls.Add(this.txtDeviceNote);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAddDevice);
@@ -390,7 +381,6 @@
         private System.Windows.Forms.ComboBox cmbCategory;
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.Label lblNote;
-        private System.Windows.Forms.TextBox txtNote;
         private System.Windows.Forms.MaskedTextBox txtPhone;
         private System.Windows.Forms.DateTimePicker dtFinishedAt;
         private System.Windows.Forms.NumericUpDown numPrice;

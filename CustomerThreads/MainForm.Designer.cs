@@ -51,6 +51,7 @@
             this.menuAdminRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCustomerInfo = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listDeviceNotes = new System.Windows.Forms.ListBox();
             this.lblCustomerCategory = new System.Windows.Forms.Label();
             this.listDevicesMain = new System.Windows.Forms.ListBox();
             this.lblCustomerPhone = new System.Windows.Forms.Label();
@@ -62,7 +63,6 @@
             this.panelDetails = new System.Windows.Forms.Panel();
             this.picPanelLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listDeviceNotes = new System.Windows.Forms.ListBox();
             this.panelThreads.SuspendLayout();
             this.ctxThreadMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -319,6 +319,15 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
+            // listDeviceNotes
+            // 
+            this.listDeviceNotes.FormattingEnabled = true;
+            this.listDeviceNotes.Location = new System.Drawing.Point(177, 12);
+            this.listDeviceNotes.Name = "listDeviceNotes";
+            this.listDeviceNotes.Size = new System.Drawing.Size(279, 121);
+            this.listDeviceNotes.TabIndex = 6;
+            this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
+            // 
             // lblCustomerCategory
             // 
             this.lblCustomerCategory.AutoSize = true;
@@ -443,15 +452,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1319, 10);
             this.panel1.TabIndex = 5;
-            // 
-            // listDeviceNotes
-            // 
-            this.listDeviceNotes.FormattingEnabled = true;
-            this.listDeviceNotes.Location = new System.Drawing.Point(177, 12);
-            this.listDeviceNotes.Name = "listDeviceNotes";
-            this.listDeviceNotes.Size = new System.Drawing.Size(279, 121);
-            this.listDeviceNotes.TabIndex = 6;
-            this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
             // 
             // MainForm
             // 

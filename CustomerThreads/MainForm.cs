@@ -60,9 +60,9 @@ namespace CustomerThreads
                     listDevicesMain.Items.Add(device);
 
                 // ✅ THREAD NOTES
-                listNotes.Items.Clear();
-                foreach (var note in thread.Notes)
-                    listNotes.Items.Add(note);
+                //listNotes.Items.Clear();
+                //foreach (var note in thread.Notes)
+                   // listNotes.Items.Add(note);
 
                 // ✅ ATTACHMENTS
                 listAttachmentsView.Items.Clear();
@@ -186,7 +186,6 @@ namespace CustomerThreads
             lblCustomerName.Text = "";
             lblCustomerPhone.Text = "";
             lblCustomerCategory.Text = "";
-            listNotes.Items.Clear();
             ClearAttachmentsUI();
             listDevicesMain.Items.Clear();
         }
