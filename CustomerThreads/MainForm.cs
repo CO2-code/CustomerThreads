@@ -612,7 +612,7 @@ namespace CustomerThreads
             }
         }
 
-        private void listDevicesMain_SelectedIndexChanged(object sender, EventArgs e)
+        private void listDeviceNotes_SelectedIndexChanged(object sender, EventArgs e)
         {
             listDeviceNotes.Items.Clear();
 
