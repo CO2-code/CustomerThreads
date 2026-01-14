@@ -72,6 +72,7 @@
     <Compile Include="CustomerThread.cs" />
     <Compile Include="CustomerType.cs" />
     <Compile Include="DeviceItem.cs" />
+    <Compile Include="DeviceNote.cs" />
     <Compile Include="GoogleDriveBackup.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

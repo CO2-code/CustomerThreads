@@ -209,10 +209,21 @@ namespace CustomerThreads
                 FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null
             };
 
+            // ✅ ADD DEVICE NOTE (if written)
+            if (!string.IsNullOrWhiteSpace(txtDeviceNote.Text))
+            {
+                device.Notes.Add(new DeviceNote
+                {
+                    Text = txtDeviceNote.Text.Trim()
+                });
+            }
+
             tempDevices.Add(device);
             listDevices.Items.Add(device);
 
+            // reset inputs
             txtDevice.Clear();
+            txtDeviceNote.Clear();   // ✅ clear note too
             numPrice.Value = 0;
             dtFinishedAt.Checked = false;
         }

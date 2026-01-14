@@ -54,6 +54,7 @@
             this.btnRemoveDevice = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.txtDeviceNote = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -332,12 +333,20 @@
             this.panel2.Size = new System.Drawing.Size(560, 215);
             this.panel2.TabIndex = 27;
             // 
+            // txtDeviceNote
+            // 
+            this.txtDeviceNote.Location = new System.Drawing.Point(441, 187);
+            this.txtDeviceNote.Name = "txtDeviceNote";
+            this.txtDeviceNote.Size = new System.Drawing.Size(296, 20);
+            this.txtDeviceNote.TabIndex = 28;
+            // 
             // NewThreadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(1310, 677);
+            this.Controls.Add(this.txtDeviceNote);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAddDevice);
@@ -399,5 +408,6 @@
         private System.Windows.Forms.Button btnRemoveDevice;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox txtDeviceNote;
     }
 }

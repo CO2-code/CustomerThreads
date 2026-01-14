@@ -15,7 +15,8 @@ namespace CustomerThreads
 
         public decimal Price { get; set; }
 
-        public List<ThreadNote> Notes { get; set; } = new List<ThreadNote>();
+        // ✅ Device-specific notes ONLY
+        public List<DeviceNote> Notes { get; set; } = new List<DeviceNote>();
 
         public override string ToString()
         {
@@ -25,7 +26,7 @@ namespace CustomerThreads
                 ? FinishedAt.Value.ToString("yyyy-MM-dd")
                 : "In progress";
 
-            return $"{Name} | {Price:0.00} | Created: {created} | Finished: {finished}";
+            return $"{Name} | {Price:0.00} | Created: {created} | Finished: {finished} | Notes: {Notes.Count}";
         }
     }
 }

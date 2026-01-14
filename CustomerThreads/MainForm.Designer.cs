@@ -54,7 +54,6 @@
             this.lblCustomerCategory = new System.Windows.Forms.Label();
             this.listDevicesMain = new System.Windows.Forms.ListBox();
             this.lblCustomerPhone = new System.Windows.Forms.Label();
-            this.lblCustomerDevice = new System.Windows.Forms.Label();
             this.lblCustomerName = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
@@ -63,6 +62,7 @@
             this.panelDetails = new System.Windows.Forms.Panel();
             this.picPanelLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.listDeviceNotes = new System.Windows.Forms.ListBox();
             this.panelThreads.SuspendLayout();
             this.ctxThreadMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -307,10 +307,10 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Lavender;
+            this.groupBox1.Controls.Add(this.listDeviceNotes);
             this.groupBox1.Controls.Add(this.lblCustomerCategory);
             this.groupBox1.Controls.Add(this.listDevicesMain);
             this.groupBox1.Controls.Add(this.lblCustomerPhone);
-            this.groupBox1.Controls.Add(this.lblCustomerDevice);
             this.groupBox1.Controls.Add(this.lblCustomerName);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -333,11 +333,11 @@
             // 
             this.listDevicesMain.Dock = System.Windows.Forms.DockStyle.Right;
             this.listDevicesMain.FormattingEnabled = true;
-            this.listDevicesMain.Location = new System.Drawing.Point(252, 16);
+            this.listDevicesMain.Location = new System.Drawing.Point(462, 16);
             this.listDevicesMain.MaximumSize = new System.Drawing.Size(815, 118);
-            this.listDevicesMain.MinimumSize = new System.Drawing.Size(810, 117);
+            this.listDevicesMain.MinimumSize = new System.Drawing.Size(600, 117);
             this.listDevicesMain.Name = "listDevicesMain";
-            this.listDevicesMain.Size = new System.Drawing.Size(810, 117);
+            this.listDevicesMain.Size = new System.Drawing.Size(600, 117);
             this.listDevicesMain.TabIndex = 5;
             // 
             // lblCustomerPhone
@@ -349,16 +349,6 @@
             this.lblCustomerPhone.Size = new System.Drawing.Size(59, 16);
             this.lblCustomerPhone.TabIndex = 1;
             this.lblCustomerPhone.Text = "Phone :";
-            // 
-            // lblCustomerDevice
-            // 
-            this.lblCustomerDevice.AutoSize = true;
-            this.lblCustomerDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerDevice.Location = new System.Drawing.Point(190, 16);
-            this.lblCustomerDevice.Name = "lblCustomerDevice";
-            this.lblCustomerDevice.Size = new System.Drawing.Size(82, 16);
-            this.lblCustomerDevice.TabIndex = 2;
-            this.lblCustomerDevice.Text = "Device(s) :";
             // 
             // lblCustomerName
             // 
@@ -436,9 +426,9 @@
             this.picPanelLogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picPanelLogo.Enabled = false;
             this.picPanelLogo.Image = ((System.Drawing.Image)(resources.GetObject("picPanelLogo.Image")));
-            this.picPanelLogo.Location = new System.Drawing.Point(250, 0);
+            this.picPanelLogo.Location = new System.Drawing.Point(0, 0);
             this.picPanelLogo.Name = "picPanelLogo";
-            this.picPanelLogo.Size = new System.Drawing.Size(1069, 550);
+            this.picPanelLogo.Size = new System.Drawing.Size(1319, 560);
             this.picPanelLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPanelLogo.TabIndex = 6;
             this.picPanelLogo.TabStop = false;
@@ -454,6 +444,15 @@
             this.panel1.Size = new System.Drawing.Size(1319, 10);
             this.panel1.TabIndex = 5;
             // 
+            // listDeviceNotes
+            // 
+            this.listDeviceNotes.FormattingEnabled = true;
+            this.listDeviceNotes.Location = new System.Drawing.Point(177, 12);
+            this.listDeviceNotes.Name = "listDeviceNotes";
+            this.listDeviceNotes.Size = new System.Drawing.Size(279, 121);
+            this.listDeviceNotes.TabIndex = 6;
+            this.listDeviceNotes.SelectedIndexChanged += new System.EventHandler(this.listDeviceNotes_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -461,10 +460,10 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.CadetBlue;
             this.ClientSize = new System.Drawing.Size(1319, 560);
-            this.Controls.Add(this.picPanelLogo);
             this.Controls.Add(this.panelDetails);
             this.Controls.Add(this.panelThreads);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.picPanelLogo);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.ShowIcon = false;
@@ -513,7 +512,6 @@
         private System.Windows.Forms.Label lblCustomerCategory;
         private System.Windows.Forms.ListBox listDevicesMain;
         private System.Windows.Forms.Label lblCustomerPhone;
-        private System.Windows.Forms.Label lblCustomerDevice;
         private System.Windows.Forms.Label lblCustomerName;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox listAttachmentsView;
@@ -523,6 +521,7 @@
         private System.Windows.Forms.PictureBox picPanelLogo;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblLastBackup;
+        private System.Windows.Forms.ListBox listDeviceNotes;
     }
 }
 

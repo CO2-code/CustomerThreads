@@ -2,14 +2,15 @@
 
 namespace CustomerThreads
 {
-    public class ThreadNote
+    public class DeviceNote
     {
         public string Text { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public override string ToString()
         {
-            return $"{CreatedAt:yyyy-MM-dd HH:mm} - {Text}";
+            string created = CreatedAt.ToString("yyyy-MM-dd HH:mm");
+            return $"{Text} (Created: {created})";
         }
     }
 }

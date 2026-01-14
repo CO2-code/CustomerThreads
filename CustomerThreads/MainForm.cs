@@ -47,29 +47,40 @@ namespace CustomerThreads
 
             if (listThreads.SelectedItem is CustomerThread thread)
             {
-
                 ShowDetails();
 
-               // lblThreadTitle.Text = thread.Title;
+                // lblThreadTitle.Text = thread.Title;
                 lblCustomerName.Text = "Name: " + thread.CustomerName;
                 lblCustomerPhone.Text = "Phone: " + thread.Phone;
                 lblCustomerCategory.Text = "Category: " + thread.Category;
 
-                // ✅ DEVICE LIST (FIX)
+                // ✅ DEVICE LIST
                 listDevicesMain.Items.Clear();
                 foreach (var device in thread.Devices)
                     listDevicesMain.Items.Add(device);
 
+                // ✅ THREAD NOTES
                 listNotes.Items.Clear();
                 foreach (var note in thread.Notes)
                     listNotes.Items.Add(note);
 
+                // ✅ ATTACHMENTS
                 listAttachmentsView.Items.Clear();
                 foreach (var att in thread.Attachments)
                     listAttachmentsView.Items.Add(att);
+
+                // ✅ DEVICE NOTES
+                listDeviceNotes.Items.Clear(); // <-- NEW
+                foreach (var device in thread.Devices)
+                {
+                    listDeviceNotes.Items.Add($"--- {device.Name} ---"); // optional separator
+                    foreach (var note in device.Notes)  // DeviceNote list
+                    {
+                        listDeviceNotes.Items.Add($"{note.Text} (Created: {note.CreatedAt:yyyy-MM-dd HH:mm})");
+                    }
+                }
             }
         }
-
         private void listAttachmentsView_DoubleClick(object sender, EventArgs e)
         {
             if (listAttachmentsView.SelectedItem is ThreadAttachment att)
@@ -174,7 +185,6 @@ namespace CustomerThreads
           //  lblThreadTitle.Text = "";
             lblCustomerName.Text = "";
             lblCustomerPhone.Text = "";
-            lblCustomerDevice.Text = "";
             lblCustomerCategory.Text = "";
             listNotes.Items.Clear();
             ClearAttachmentsUI();
@@ -601,6 +611,11 @@ namespace CustomerThreads
                 if (c != picPanelLogo)
                     c.Visible = true;
             }
+        }
+
+        private void listDeviceNotes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
