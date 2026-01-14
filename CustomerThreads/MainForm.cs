@@ -45,13 +45,11 @@ namespace CustomerThreads
         {
             ClearAttachmentsUI();
 
-            // Clear device notes when thread changes
-            listDeviceNote.Items.Clear();
-
             if (listThreads.SelectedItem is CustomerThread thread)
             {
                 ShowDetails();
 
+                // lblThreadTitle.Text = thread.Title;
                 lblCustomerName.Text = "Name: " + thread.CustomerName;
                 lblCustomerPhone.Text = "Phone: " + thread.Phone;
                 lblCustomerCategory.Text = "Category: " + thread.Category;
@@ -61,67 +59,39 @@ namespace CustomerThreads
                 foreach (var device in thread.Devices)
                     listDevicesMain.Items.Add(device);
 
+                // ✅ THREAD NOTES
+                //listNotes.Items.Clear();
+                //foreach (var note in thread.Notes)
+                // listNotes.Items.Add(note);
+
                 // ✅ ATTACHMENTS
                 listAttachmentsView.Items.Clear();
                 foreach (var att in thread.Attachments)
                     listAttachmentsView.Items.Add(att);
-            }
-        }
 
-        private void listDevicesMain_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Clear notes first
-            listDeviceNote.Items.Clear();
-
-            // Only populate if a device is selected
-            if (listDevicesMain.SelectedItem is DeviceItem device)
-            {
-                // ✅ Show each device note with timestamp
-                foreach (var note in device.Notes)
+                // ✅ DEVICE NOTES
+                listDeviceNote.Items.Clear(); // <-- NEW
+                foreach (var device in thread.Devices)
                 {
-                    string timestamp = note.CreatedAt.ToString("HH:mm dd-MM-yyyy");
-                    listDeviceNote.Items.Add($"• ({timestamp}) {note.Text}");
+                    listDeviceNote.Items.Add($"--- {device.Name} ---"); // optional separator
+                    foreach (var note in device.Notes)  // DeviceNote list
+                    {
+                        listDeviceNote.Items.Add($"{note.Text} (Created: {note.CreatedAt:yyyy-MM-dd HH:mm})");
+                    }
                 }
-
-                // ✅ Separator if there are notes
-                if (device.Notes.Count > 0)
-                    listDeviceNote.Items.Add("----------------------------");
-
-                // ✅ Show optional metadata
-                if (!string.IsNullOrWhiteSpace(device.DeviceType))
-                    listDeviceNote.Items.Add("Type: " + device.DeviceType);
-
-                if (!string.IsNullOrWhiteSpace(device.ModelNumber))
-                    listDeviceNote.Items.Add("Model: " + device.ModelNumber);
-
-                if (!string.IsNullOrWhiteSpace(device.SerialNumber))
-                    listDeviceNote.Items.Add("Serial: " + device.SerialNumber);
-
-                // ✅ Show device creation timestamp
-                listDeviceNote.Items.Add("Added: " + device.CreatedAt.ToString("HH:mm dd-MM-yyyy"));
             }
         }
-
-        private void listAttachmentsView_SelectedIndexChanged(object sender, EventArgs e)
+        private void listAttachmentsView_DoubleClick(object sender, EventArgs e)
         {
-            picPreview.Image = null;
-            picPreview.Visible = false;
-
             if (listAttachmentsView.SelectedItem is ThreadAttachment att)
             {
-                string ext = Path.GetExtension(att.FilePath).ToLower();
-
-                if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp")
+                if (File.Exists(att.FilePath))
                 {
-                    if (File.Exists(att.FilePath))
-                    {
-                        using (var fs = new FileStream(att.FilePath, FileMode.Open, FileAccess.Read))
-                        {
-                            picPreview.Image = Image.FromStream(fs);
-                        }
-
-                        picPreview.Visible = true;
-                    }
+                    System.Diagnostics.Process.Start(att.FilePath);
+                }
+                else
+                {
+                    MessageBox.Show("File not found on disk.");
                 }
             }
         }
@@ -212,21 +182,28 @@ namespace CustomerThreads
 
         void ClearDetails()
         {
+            //  lblThreadTitle.Text = "";
             lblCustomerName.Text = "";
             lblCustomerPhone.Text = "";
             lblCustomerCategory.Text = "";
             ClearAttachmentsUI();
             listDevicesMain.Items.Clear();
-            listDeviceNote.Items.Clear();
+        }
+
+        void RefreshApplication()
+        {
+            LoadData();
+            RefreshThreadList();
+            ClearDetails();
+            ClearAttachmentsUI();
         }
 
         void ClearAttachmentsUI()
         {
-            listAttachmentsView.Items.Clear();
+            listAttachmentsView.Items.Clear();   // or ListView.Items.Clear()
             picPreview.Image = null;
         }
 
-        // ----------------- DELETIONS / ARCHIVE -----------------
         private void btnDelete_Click(object sender, EventArgs e)
         {
             var selected = GetSelectedThreads();
@@ -304,8 +281,9 @@ namespace CustomerThreads
             ClearDetails();
         }
 
-        // ----------------- CONTEXT MENU -----------------
+        // ----------------- CONTEXT MENU HANDLERS -----------------
         private void ctxEdit_Click(object sender, EventArgs e) => EditSelectedThread();
+
         private void ctxArchive_Click(object sender, EventArgs e)
         {
             var selected = GetSelectedThreads();
@@ -319,6 +297,7 @@ namespace CustomerThreads
             ClearDetails();
             ClearAttachmentsUI();
         }
+
         private void ctxDelete_Click(object sender, EventArgs e)
         {
             if (!isAdmin)
@@ -347,6 +326,7 @@ namespace CustomerThreads
             ClearDetails();
             ClearAttachmentsUI();
         }
+
         private void ctxRestore_Click(object sender, EventArgs e)
         {
             var selected = GetSelectedThreads();
@@ -382,7 +362,171 @@ namespace CustomerThreads
             }
         }
 
-        // ----------------- HELPER METHODS -----------------
+        private void ctxThreadMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var selected = GetSelectedThreads();
+
+            if (selected.Count == 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            bool anyArchived = selected.Any(t => t.IsArchived);
+            bool anyActive = selected.Any(t => !t.IsArchived);
+
+            ctxEdit.Enabled = selected.Count == 1 && anyActive;
+            ctxArchive.Enabled = anyActive;
+            ctxRestore.Enabled = anyArchived;
+            ctxDelete.Enabled = isAdmin;
+            ctxExport.Enabled = selected.Count == 1;
+
+            foreach (var t in selected)
+            {
+                if (t.Category == "Finished" && !t.FinishedAt.HasValue)
+                    t.FinishedAt = DateTime.Now;
+            }
+        }
+
+        // ----------------- ADMIN MENU -----------------
+        private void menuAdminLogin_Click(object sender, EventArgs e)
+        {
+            using (var form = new AdminLoginForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    isAdmin = true;
+                    UpdateAdminUI();
+                    MessageBox.Show("Admin mode enabled.");
+                }
+            }
+        }
+
+        private void menuAdminLogout_Click(object sender, EventArgs e)
+        {
+            isAdmin = false;
+            UpdateAdminUI();
+            MessageBox.Show("Admin logged out.");
+        }
+
+        private void menuAdminChangePassword_Click(object sender, EventArgs e)
+        {
+            if (!isAdmin)
+            {
+                MessageBox.Show("Admin login required.");
+                return;
+            }
+
+            using (var form = new ChangePasswordForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // nothing extra needed here
+                }
+            }
+        }
+
+        // ----------------- SEARCH BOX -----------------
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (txtSearch.Text == "Search...")
+            {
+                txtSearch.Text = "";
+                txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Text = "Search...";
+                txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtSearch.ForeColor == Color.Gray) return;
+            RefreshThreadList();
+        }
+
+        // ----------------- LIST CATEGORIES -----------------
+        private void listCategories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshThreadList();
+        }
+
+        // ----------------- MOUSE -----------------
+        private void listThreads_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int index = listThreads.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches)
+                    listThreads.SelectedIndex = index;
+                else
+                    listThreads.ClearSelected();
+            }
+        }
+
+        private void panelDetails_Paint(object sender, PaintEventArgs e)
+        {
+            // Optional: custom painting if needed
+        }
+
+        // ----------------- ADMIN UI -----------------
+        void UpdateAdminUI()
+        {
+            ctxDelete.Enabled = isAdmin;
+            ctxRestore.Enabled = isAdmin;
+
+            menuAdminChangePassword.Enabled = isAdmin;
+            menuAdminLogout.Enabled = isAdmin;
+            menuAdminLogin.Enabled = !isAdmin;
+        }
+
+        // ----------------- EXPORT -----------------
+        void ExportSelectedThreadToCsv(CustomerThread t, string filePath)
+        {
+            var lines = new List<string>();
+
+            lines.Add("Title,Customer,Phone,Device(s),Category,CreatedAt,FinishedAt,Price,Archived,Notes,Attachments");
+
+            //string notes = string.Join(" | ",
+            //  t.Notes.Select(n =>
+            //  $"{n.CreatedAt:yyyy-MM-dd HH:mm}: {n.Text.Replace(",", " ")}"));
+
+            string attachments = string.Join(" | ", t.Attachments.Select(a => a.FileName));
+
+            string line = string.Join(",",
+                Escape(t.Title),
+                Escape(t.CustomerName),
+                Escape(t.Phone),
+                Escape(string.Join(", ", t.Devices)),
+                Escape(t.Category),
+                t.CreatedAt.ToString("yyyy-MM-dd HH:mm"),
+                t.FinishedAt.HasValue ? t.FinishedAt.Value.ToString("yyyy-MM-dd HH:mm") : "-",
+                t.Price.ToString("0.00"),
+                t.IsArchived ? "Yes" : "No",
+                // Escape(notes),
+                Escape(attachments)
+            );
+
+            lines.Add(line);
+            File.WriteAllLines(filePath, lines, Encoding.UTF8);
+        }
+
+        string Escape(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "";
+
+            value = value.Replace("\"", "\"\"");
+            return $"\"{value}\"";
+        }
+
+        // ----------------- EDIT HELPER -----------------
         private void EditSelectedThread()
         {
             if (!(listThreads.SelectedItem is CustomerThread thread))
@@ -411,58 +555,39 @@ namespace CustomerThreads
                 .ToList();
         }
 
-        void UpdateAdminUI()
+        private void listAttachmentsView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ctxDelete.Enabled = isAdmin;
-            ctxRestore.Enabled = isAdmin;
+            picPreview.Image = null;
+            picPreview.Visible = false;
 
-            menuAdminChangePassword.Enabled = isAdmin;
-            menuAdminLogout.Enabled = isAdmin;
-            menuAdminLogin.Enabled = !isAdmin;
-        }
-
-        void ExportSelectedThreadToCsv(CustomerThread t, string filePath)
-        {
-            var lines = new List<string>();
-            lines.Add("Title,Customer,Phone,Device(s),Category,CreatedAt,FinishedAt,Price,Archived,Attachments");
-
-            string attachments = string.Join(" | ", t.Attachments.Select(a => a.FileName));
-
-            string line = string.Join(",",
-                Escape(t.Title),
-                Escape(t.CustomerName),
-                Escape(t.Phone),
-                Escape(string.Join(", ", t.Devices)),
-                Escape(t.Category),
-                t.CreatedAt.ToString("yyyy-MM-dd HH:mm"),
-                t.FinishedAt.HasValue ? t.FinishedAt.Value.ToString("yyyy-MM-dd HH:mm") : "-",
-                t.Price.ToString("0.00"),
-                t.IsArchived ? "Yes" : "No",
-                Escape(attachments)
-            );
-
-            lines.Add(line);
-            File.WriteAllLines(filePath, lines, Encoding.UTF8);
-        }
-
-        string Escape(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return "";
-            value = value.Replace("\"", "\"\"");
-            return $"\"{value}\"";
-        }
-
-        private void listThreads_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
+            if (listAttachmentsView.SelectedItem is ThreadAttachment att)
             {
-                int index = listThreads.IndexFromPoint(e.Location);
-                if (index != ListBox.NoMatches)
-                    listThreads.SelectedIndex = index;
-                else
-                    listThreads.ClearSelected();
+                string ext = Path.GetExtension(att.FilePath).ToLower();
+
+                if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp")
+                {
+                    if (File.Exists(att.FilePath))
+                    {
+                        using (var fs = new FileStream(att.FilePath, FileMode.Open, FileAccess.Read))
+                        {
+                            picPreview.Image = Image.FromStream(fs);
+                        }
+
+                        picPreview.Visible = true;
+                    }
+                }
             }
+        }
+
+        private void menuAdminRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshApplication();
+            ShowLogo();
+        }
+
+        private void picPanelLogo_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void ShowLogo()
@@ -485,6 +610,41 @@ namespace CustomerThreads
                 if (c != picPanelLogo)
                     c.Visible = true;
             }
+        }
+
+        private void listDevicesMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear notes first
+            listDeviceNote.Items.Clear();
+
+            // Only populate if a device is selected
+            if (listDevicesMain.SelectedItem is DeviceItem device)
+            {
+                // ✅ Show each device note with timestamp
+                foreach (var note in device.Notes)
+                {
+                    string timestamp = note.CreatedAt.ToString("HH:mm dd-MM-yyyy");
+                    listDeviceNote.Items.Add($"• ({timestamp}) {note.Text}");
+                }
+
+                // ✅ Separator if there are notes
+                if (device.Notes.Count > 0)
+                    listDeviceNote.Items.Add("----------------------------");
+
+                // ✅ Show optional metadata
+                if (!string.IsNullOrWhiteSpace(device.DeviceType))
+                    listDeviceNote.Items.Add("Type: " + device.DeviceType);
+
+                if (!string.IsNullOrWhiteSpace(device.ModelNumber))
+                    listDeviceNote.Items.Add("Model: " + device.ModelNumber);
+
+                if (!string.IsNullOrWhiteSpace(device.SerialNumber))
+                    listDeviceNote.Items.Add("Serial: " + device.SerialNumber);
+
+                // ✅ Show device creation timestamp
+                listDeviceNote.Items.Add("Added: " + device.CreatedAt.ToString("HH:mm dd-MM-yyyy"));
+            }
+            // ✅ If no device selected, listDeviceNotes remains empty
         }
     }
 }

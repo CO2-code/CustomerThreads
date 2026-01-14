@@ -50,7 +50,7 @@ namespace CustomerThreads
             if (threadToEdit.CustomerType == CustomerType.Company)
             {
                 rbCompany.Checked = true;
-               // txtCompanyName.Text = threadToEdit.CompanyName;
+                // txtCompanyName.Text = threadToEdit.CompanyName;
             }
             else
             {
@@ -89,7 +89,7 @@ namespace CustomerThreads
             if (!isEditMode)
                 cmbCategory.SelectedIndex = 0;
 
-           // txtCompanyName.Enabled = rbCompany.Checked;
+            // txtCompanyName.Enabled = rbCompany.Checked;
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
@@ -107,7 +107,7 @@ namespace CustomerThreads
             }
 
             CustomerType type = rbCompany.Checked ? CustomerType.Company : CustomerType.Individual;
-           // string companyName = rbCompany.Checked ? txtCompanyName.Text : null;
+            // string companyName = rbCompany.Checked ? txtCompanyName.Text : null;
 
             string title = $"{txtName.Text} - {string.Join(", ", tempDevices.Select(d => d.Name))}";
 
@@ -121,7 +121,7 @@ namespace CustomerThreads
                 editingThread.Price = numPrice.Value;
                 editingThread.FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null;
                 editingThread.CustomerType = type;
-              //  editingThread.CompanyName = companyName;
+                //  editingThread.CompanyName = companyName;
 
                 if (editingThread.Category == "Finished" && !editingThread.FinishedAt.HasValue)
                     editingThread.FinishedAt = DateTime.Now;
@@ -154,7 +154,7 @@ namespace CustomerThreads
                     Price = numPrice.Value,
                     FinishedAt = dtFinishedAt.Checked ? dtFinishedAt.Value : (DateTime?)null,
                     CustomerType = type,
-                   // CompanyName = companyName,
+                    // CompanyName = companyName,
                     Attachments = new List<ThreadAttachment>()
                 };
 
@@ -252,7 +252,7 @@ namespace CustomerThreads
 
         private void rbCompany_CheckedChanged(object sender, EventArgs e)
         {
-           // txtCompanyName.Enabled = rbCompany.Checked;
+            // txtCompanyName.Enabled = rbCompany.Checked;
         }
 
         private void txtPhone_Enter(object sender, EventArgs e)
