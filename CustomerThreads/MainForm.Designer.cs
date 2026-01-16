@@ -56,12 +56,12 @@
             this.lblCustomerPhone = new System.Windows.Forms.Label();
             this.lblCustomerName = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listDeviceNote = new System.Windows.Forms.RichTextBox();
             this.listAttachmentsView = new System.Windows.Forms.ListBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.panelDetails = new System.Windows.Forms.Panel();
             this.picPanelLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listDeviceNote = new System.Windows.Forms.RichTextBox();
             this.panelThreads.SuspendLayout();
             this.ctxThreadMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -373,6 +373,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
+            // listDeviceNote
+            // 
+            this.listDeviceNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listDeviceNote.DetectUrls = false;
+            this.listDeviceNote.Dock = System.Windows.Forms.DockStyle.Left;
+            this.listDeviceNote.Location = new System.Drawing.Point(223, 16);
+            this.listDeviceNote.MaximumSize = new System.Drawing.Size(500, 700);
+            this.listDeviceNote.MinimumSize = new System.Drawing.Size(303, 620);
+            this.listDeviceNote.Name = "listDeviceNote";
+            this.listDeviceNote.ReadOnly = true;
+            this.listDeviceNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.listDeviceNote.Size = new System.Drawing.Size(303, 620);
+            this.listDeviceNote.TabIndex = 7;
+            this.listDeviceNote.Text = "";
+            // 
             // listAttachmentsView
             // 
             this.listAttachmentsView.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -432,21 +447,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1319, 10);
             this.panel1.TabIndex = 5;
-            // 
-            // listDeviceNote
-            // 
-            this.listDeviceNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listDeviceNote.DetectUrls = false;
-            this.listDeviceNote.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listDeviceNote.Location = new System.Drawing.Point(223, 16);
-            this.listDeviceNote.MaximumSize = new System.Drawing.Size(500, 700);
-            this.listDeviceNote.MinimumSize = new System.Drawing.Size(303, 620);
-            this.listDeviceNote.Name = "listDeviceNote";
-            this.listDeviceNote.ReadOnly = true;
-            this.listDeviceNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.listDeviceNote.Size = new System.Drawing.Size(303, 620);
-            this.listDeviceNote.TabIndex = 7;
-            this.listDeviceNote.Text = "";
             // 
             // MainForm
             // 
