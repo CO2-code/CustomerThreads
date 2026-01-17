@@ -196,14 +196,11 @@ namespace CustomerThreads
             device.SerialNumber = txtSerialNumber.Text.Trim();
             device.Price = numPrice.Value;
 
-            // Date received from TEXTBOX
-            if (DateTime.TryParse(txtDate.Text, out DateTime received))
-                device.DateReceived = received;
+            // ✅ FIX: parse txtDate safely
+            if (DateTime.TryParse(txtDate.Text.Trim(), out DateTime parsedDate))
+                device.DateReceived = parsedDate;
             else
                 device.DateReceived = null;
-
-            device.State = dtFinishedAt.Checked ? "Finished" : "In Progress";
-            device.FinishedAt = dtFinishedAt.Checked ? DateTime.Now : (DateTime?)null;
 
             device.Notes.Clear();
             if (!string.IsNullOrWhiteSpace(txtDeviceNote.Text))
