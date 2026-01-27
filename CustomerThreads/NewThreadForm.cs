@@ -196,26 +196,41 @@ namespace CustomerThreads
             device.SerialNumber = txtSerialNumber.Text.Trim();
             device.Price = numPrice.Value;
 
-            // ✅ FIX: parse txtDate safely
+            // Parse txtDate safely
             if (DateTime.TryParse(txtDate.Text.Trim(), out DateTime parsedDate))
                 device.DateReceived = parsedDate;
             else
                 device.DateReceived = null;
 
+            // ✅ Update FinishedAt and State properly
+            if (dtFinishedAt.Checked)
+            {
+                device.FinishedAt = DateTime.Now;
+                device.State = "Finished";
+            }
+            else
+            {
+                device.FinishedAt = null;
+                device.State = "In Progress";
+            }
+
             device.Notes.Clear();
             if (!string.IsNullOrWhiteSpace(txtDeviceNote.Text))
-            {
-                device.Notes.Add(new DeviceNote
-                {
-                    Text = txtDeviceNote.Text.Trim()
-                });
-            }
+                device.Notes.Add(new DeviceNote { Text = txtDeviceNote.Text.Trim() });
         }
 
         private void listDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listDevices.SelectedItem is DeviceItem device)
             {
+                // Only allow editing devices that are not finished
+                if (device.State == "Finished")
+                {
+                    editingDevice = null;
+                    ClearDeviceInputs();
+                    return;
+                }
+
                 editingDevice = device;
 
                 txtDevice.Text = device.Name;
@@ -281,7 +296,7 @@ namespace CustomerThreads
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // original behavior kept (empty on purpose)
+            // original behavior kept
         }
 
         private void rbCompany_CheckedChanged(object sender, EventArgs e)
@@ -295,6 +310,5 @@ namespace CustomerThreads
             txtPhone.SelectionStart = 0;
             txtPhone.SelectionLength = 0;
         }
-
     }
 }

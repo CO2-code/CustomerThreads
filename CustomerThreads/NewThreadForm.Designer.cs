@@ -286,6 +286,7 @@
             this.listDevices.Name = "listDevices";
             this.listDevices.Size = new System.Drawing.Size(450, 215);
             this.listDevices.TabIndex = 23;
+            this.listDevices.SelectedIndexChanged += new System.EventHandler(this.listDevices_SelectedIndexChanged);
             // 
             // btnAddDevice
             // 
