@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace CustomerThreads
 {
@@ -15,17 +16,29 @@ namespace CustomerThreads
 
         private List<DeviceItem> tempDevices = new List<DeviceItem>();
 
+        // Automatic mode
+        private bool isAutomatic = false;
+        private bool autoParsed = false;
+        private CheckBox chkAutomatic;
+        private TextBox txtAutomaticInput;
+        private Button btnParseAutomatic;
+        private Label lblAutomaticHint;
+        private DateTime? parsedCreatedAt = null;
+        private DateTime? parsedFinishedAt = null;
+
         // Device edit tracking
         private DeviceItem editingDevice = null;
 
         public NewThreadForm()
         {
             InitializeComponent();
+            SetupAutomaticControls();
         }
 
         public NewThreadForm(CustomerThread threadToEdit)
         {
             InitializeComponent();
+            SetupAutomaticControls();
 
             isEditMode = true;
             editingThread = threadToEdit;
@@ -69,6 +82,279 @@ namespace CustomerThreads
                 listAttachments.Items.Add(att.FilePath);
         }
 
+        private void SetupAutomaticControls()
+        {
+            // Checkbox to enable automatic mode
+            chkAutomatic = new CheckBox();
+            chkAutomatic.Text = "Automatic";
+            chkAutomatic.AutoSize = true;
+            chkAutomatic.Checked = false;
+            chkAutomatic.CheckedChanged += chkAutomatic_CheckedChanged;
+
+            // Place the checkbox near the customer name textbox if available
+            try
+            {
+                chkAutomatic.Location = new System.Drawing.Point(txtName.Right + 10, txtName.Top);
+            }
+            catch
+            {
+                chkAutomatic.Location = new System.Drawing.Point(10, 10);
+            }
+
+            // Multiline textbox for automatic raw input
+            txtAutomaticInput = new TextBox();
+            txtAutomaticInput.Multiline = true;
+            txtAutomaticInput.ScrollBars = ScrollBars.Vertical;
+            txtAutomaticInput.Visible = false;
+            txtAutomaticInput.Width = 300;
+            txtAutomaticInput.Height = 120;
+
+            // Place below the name field if possible
+            try
+            {
+                txtAutomaticInput.Location = new System.Drawing.Point(txtName.Left, txtName.Bottom + 6);
+            }
+            catch
+            {
+                txtAutomaticInput.Location = new System.Drawing.Point(10, 40);
+            }
+
+            // Parse button
+            btnParseAutomatic = new Button();
+            btnParseAutomatic.Text = "Parse Automatic";
+            btnParseAutomatic.AutoSize = true;
+            btnParseAutomatic.Visible = false;
+            btnParseAutomatic.Click += btnParseAutomatic_Click;
+
+            try
+            {
+                btnParseAutomatic.Location = new System.Drawing.Point(txtAutomaticInput.Right + 8, txtAutomaticInput.Top);
+            }
+            catch
+            {
+                btnParseAutomatic.Location = new System.Drawing.Point(txtAutomaticInput.Right + 8, txtAutomaticInput.Top);
+            }
+
+            // Hint label
+            lblAutomaticHint = new Label();
+            lblAutomaticHint.Text = "Format: line1 = name, line2 = phone. Optional metadata lines: 'Created:YYYY-MM-DD' or 'Finished:YYYY-MM-DD'. Then one device per line. Device fields: Name|Type|Model|Serial|Price.";
+            lblAutomaticHint.AutoSize = true;
+            lblAutomaticHint.Visible = false;
+            try
+            {
+                lblAutomaticHint.Location = new System.Drawing.Point(txtAutomaticInput.Left, txtAutomaticInput.Bottom + 4);
+            }
+            catch
+            {
+                lblAutomaticHint.Location = new System.Drawing.Point(txtAutomaticInput.Left, txtAutomaticInput.Bottom + 4);
+            }
+
+            // Add controls to the form
+            this.Controls.Add(chkAutomatic);
+            this.Controls.Add(txtAutomaticInput);
+            this.Controls.Add(btnParseAutomatic);
+            this.Controls.Add(lblAutomaticHint);
+        }
+
+        private void chkAutomatic_CheckedChanged(object sender, EventArgs e)
+        {
+            isAutomatic = chkAutomatic.Checked;
+            txtAutomaticInput.Visible = isAutomatic;
+            btnParseAutomatic.Visible = isAutomatic;
+            lblAutomaticHint.Visible = isAutomatic;
+
+            // When switching to automatic mode, clear manual inputs or disable them
+            SetManualControlsEnabled(!isAutomatic);
+
+            if (!isAutomatic)
+            {
+                autoParsed = false;
+            }
+        }
+
+        private void btnParseAutomatic_Click(object sender, EventArgs e)
+        {
+            if (ParseAutomaticText())
+            {
+                MessageBox.Show("Automatic input parsed successfully.");
+            }
+        }
+
+        private bool ParseAutomaticText()
+        {
+            var raw = txtAutomaticInput.Text ?? string.Empty;
+            var lines = raw.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                           .Select(l => l.Trim())
+                           .Where(l => !string.IsNullOrWhiteSpace(l))
+                           .ToList();
+
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("Automatic input is empty.");
+                return false;
+            }
+
+            // Expect at least name and phone (optional devices after)
+            if (lines.Count < 2)
+            {
+                MessageBox.Show("Automatic input must contain at least a name and a phone number on separate lines.");
+                return false;
+            }
+
+            txtName.Text = lines[0];
+            txtPhone.Text = lines[1];
+
+            parsedCreatedAt = null;
+            parsedFinishedAt = null;
+
+            // Devices start from line 3 (index 2)
+            tempDevices.Clear();
+            listDevices.Items.Clear();
+
+            for (int i = 2; i < lines.Count; i++)
+            {
+                var deviceLine = lines[i];
+                if (string.IsNullOrWhiteSpace(deviceLine))
+                    continue;
+
+                // Check for metadata lines
+                var low = deviceLine.ToLowerInvariant();
+                if (low.StartsWith("created:") || low.StartsWith("createdat:") || low.StartsWith("createdat "))
+                {
+                    var datePart = deviceLine.Substring(deviceLine.IndexOf(':') + 1).Trim();
+                    if (DateTime.TryParse(datePart, out DateTime d))
+                    {
+                        parsedCreatedAt = d;
+                    }
+                    continue;
+                }
+
+                if (low.StartsWith("finished:") || low.StartsWith("finishedat:") || low.StartsWith("finishedat "))
+                {
+                    var datePart = deviceLine.Substring(deviceLine.IndexOf(':') + 1).Trim();
+                    if (DateTime.TryParse(datePart, out DateTime d))
+                    {
+                        parsedFinishedAt = d;
+                    }
+                    continue;
+                }
+
+                // Support several separators: | , ; \t
+                string[] parts = deviceLine.Split(new[] { '|', ',', ';', '\t' }, StringSplitOptions.RemoveEmptyEntries)
+                                           .Select(p => p.Trim())
+                                           .ToArray();
+
+                var device = new DeviceItem
+                {
+                    Name = parts.Length > 0 ? parts[0] : string.Empty,
+                    DeviceType = parts.Length > 1 ? parts[1] : string.Empty,
+                    ModelNumber = parts.Length > 2 ? parts[2] : string.Empty,
+                    SerialNumber = parts.Length > 3 ? parts[3] : string.Empty,
+                    Price = 0,
+                    DateReceived = null,
+                    FinishedAt = null,
+                    State = "In Progress",
+                };
+
+                // If there's a 5th part try parsing price
+                if (parts.Length > 4)
+                {
+                    var priceText = parts[4];
+                    // Remove currency symbols and whitespace
+                    priceText = new string(priceText.Where(c => char.IsDigit(c) || c == '.' || c == ',').ToArray());
+                    decimal parsedPrice;
+                    if (decimal.TryParse(priceText, NumberStyles.Number, CultureInfo.InvariantCulture, out parsedPrice)
+                        || decimal.TryParse(priceText, NumberStyles.Number, CultureInfo.CurrentCulture, out parsedPrice))
+                    {
+                        device.Price = parsedPrice;
+                    }
+                }
+
+                tempDevices.Add(device);
+                listDevices.Items.Add(device);
+            }
+
+            // Mark parsed so create flow can proceed
+            // If a finished date was parsed, update the form control so Save/Edit flows pick it up
+            if (parsedFinishedAt.HasValue)
+            {
+                dtFinishedAt.Checked = true;
+                dtFinishedAt.Value = parsedFinishedAt.Value;
+            }
+
+            // If created date parsed, reflect nowhere in UI except stored value (will be used when creating/editing)
+            autoParsed = true;
+            return true;
+        }
+
+        private void SetManualControlsEnabled(bool enabled)
+        {
+            try
+            {
+                // Hide manual controls when automatic mode is active
+                txtName.Enabled = enabled;
+                txtName.Visible = enabled;
+
+                txtPhone.Enabled = enabled;
+                txtPhone.Visible = enabled;
+
+                cmbCategory.Enabled = enabled;
+                cmbCategory.Visible = enabled;
+
+                numPrice.Enabled = enabled;
+                numPrice.Visible = enabled;
+
+                rbCompany.Enabled = enabled;
+                rbCompany.Visible = enabled;
+
+                rbIndividual.Enabled = enabled;
+                rbIndividual.Visible = enabled;
+
+                // Device inputs
+                txtDevice.Enabled = enabled;
+                txtDevice.Visible = enabled;
+
+                txtDeviceType.Enabled = enabled;
+                txtDeviceType.Visible = enabled;
+
+                txtModelNumber.Enabled = enabled;
+                txtModelNumber.Visible = enabled;
+
+                txtSerialNumber.Enabled = enabled;
+                txtSerialNumber.Visible = enabled;
+
+                txtDeviceNote.Enabled = enabled;
+                txtDeviceNote.Visible = enabled;
+
+                txtDate.Enabled = enabled;
+                txtDate.Visible = enabled;
+
+                btnAddDevice.Enabled = enabled;
+                btnAddDevice.Visible = enabled;
+
+                btnRemoveDevice.Enabled = enabled;
+                btnRemoveDevice.Visible = enabled;
+
+                // Attachments
+                btnAddAttachment.Enabled = enabled;
+                btnAddAttachment.Visible = enabled;
+
+                btnRemoveAttachment.Enabled = enabled;
+                btnRemoveAttachment.Visible = enabled;
+
+                listAttachments.Enabled = enabled;
+                listAttachments.Visible = enabled;
+
+                // Keep listDevices visible so parsed devices are visible; hide only device-edit UI
+                listDevices.Enabled = true;
+                listDevices.Visible = true;
+            }
+            catch
+            {
+                // Ignore if some controls are not present for any reason
+            }
+        }
+
         private void NewThreadForm_Load(object sender, EventArgs e)
         {
             cmbCategory.Items.Clear();
@@ -86,6 +372,13 @@ namespace CustomerThreads
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
+            if (isAutomatic && !autoParsed)
+            {
+                // try to parse automatically before creating
+                if (!ParseAutomaticText())
+                    return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
                 MessageBox.Show("Customer name is required");
