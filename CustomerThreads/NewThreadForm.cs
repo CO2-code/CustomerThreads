@@ -137,7 +137,7 @@ namespace CustomerThreads
 
             // Hint label
             lblAutomaticHint = new Label();
-            lblAutomaticHint.Text = "Format: line1 = name, line2 = phone. Optional metadata lines: 'Created:YYYY-MM-DD' or 'Finished:YYYY-MM-DD'. Then one device per line. Device fields: Name|Type|Model|Serial|Price.";
+            lblAutomaticHint.Text = "Format: line1 = name, line2 = phone, optional 'Created: yyyy-MM-dd' and 'Finished: yyyy-MM-dd' lines, then devices.\nDevice format per line: name|type|model|serial|price (separators: | , ; tab).";
             lblAutomaticHint.AutoSize = true;
             lblAutomaticHint.Visible = false;
             try
@@ -204,12 +204,13 @@ namespace CustomerThreads
             txtName.Text = lines[0];
             txtPhone.Text = lines[1];
 
-            parsedCreatedAt = null;
-            parsedFinishedAt = null;
-
             // Devices start from line 3 (index 2)
             tempDevices.Clear();
             listDevices.Items.Clear();
+
+            // Reset parsed dates
+            parsedCreatedAt = null;
+            parsedFinishedAt = null;
 
             for (int i = 2; i < lines.Count; i++)
             {
@@ -217,24 +218,31 @@ namespace CustomerThreads
                 if (string.IsNullOrWhiteSpace(deviceLine))
                     continue;
 
-                // Check for metadata lines
-                var low = deviceLine.ToLowerInvariant();
-                if (low.StartsWith("created:") || low.StartsWith("createdat:") || low.StartsWith("createdat "))
+                // Check for Created/Finished directives
+                var lower = deviceLine.ToLowerInvariant();
+                if (lower.StartsWith("created:") || lower.StartsWith("createdat:"))
                 {
                     var datePart = deviceLine.Substring(deviceLine.IndexOf(':') + 1).Trim();
-                    if (DateTime.TryParse(datePart, out DateTime d))
-                    {
-                        parsedCreatedAt = d;
-                    }
+                    if (DateTime.TryParse(datePart, out DateTime cd))
+                        parsedCreatedAt = cd;
                     continue;
                 }
 
-                if (low.StartsWith("finished:") || low.StartsWith("finishedat:") || low.StartsWith("finishedat "))
+                if (lower.StartsWith("finished:") || lower.StartsWith("finishedat:"))
                 {
                     var datePart = deviceLine.Substring(deviceLine.IndexOf(':') + 1).Trim();
-                    if (DateTime.TryParse(datePart, out DateTime d))
+                    if (DateTime.TryParse(datePart, out DateTime fd))
                     {
-                        parsedFinishedAt = d;
+                        parsedFinishedAt = fd;
+                        // reflect on the UI finished date control
+                        try
+                        {
+                            dtFinishedAt.Value = fd;
+                            dtFinishedAt.Checked = true;
+                        }
+                        catch
+                        {
+                        }
                     }
                     continue;
                 }
@@ -275,14 +283,6 @@ namespace CustomerThreads
             }
 
             // Mark parsed so create flow can proceed
-            // If a finished date was parsed, update the form control so Save/Edit flows pick it up
-            if (parsedFinishedAt.HasValue)
-            {
-                dtFinishedAt.Checked = true;
-                dtFinishedAt.Value = parsedFinishedAt.Value;
-            }
-
-            // If created date parsed, reflect nowhere in UI except stored value (will be used when creating/editing)
             autoParsed = true;
             return true;
         }
@@ -309,6 +309,10 @@ namespace CustomerThreads
 
                 rbIndividual.Enabled = enabled;
                 rbIndividual.Visible = enabled;
+
+                // Finished date control
+                dtFinishedAt.Enabled = enabled;
+                dtFinishedAt.Visible = enabled;
 
                 // Device inputs
                 txtDevice.Enabled = enabled;
